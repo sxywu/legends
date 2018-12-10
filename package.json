@@ -10,8 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "glsl-hsl2rgb": "^1.1.0",
+    "glsl-noise": "0.0.0",
     "glslify": "^7.0.0",
     "three": "^0.99.0",
+    "three-orbit-controls": "^82.1.0",
     "vue": "^2.5.19",
     "vue-hot-reload-api": "^2.3.1"
   },
