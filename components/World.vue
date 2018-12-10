@@ -75,7 +75,7 @@ export default {
         9, 1, 6, // bottom left
       ]
 
-      const geometry = new THREE.PolyhedronGeometry(vertices, faces, 1, 0)
+      const geometry = new THREE.PolyhedronGeometry(vertices, faces, 2, 0)
       const material = new THREE.ShaderMaterial({
         vertexShader,
         fragmentShader,
