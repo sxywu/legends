@@ -4,7 +4,9 @@
 
 <script>
 import * as THREE from 'three'
-// import glslify from 'glslify'
+const OrbitControls = require('three-orbit-controls')(THREE)
+const vertexShader = require('../assets/shader.vert')
+const fragmentShader = require('../assets/shader.frag')
 
 export default {
   name: 'world',
@@ -18,15 +20,20 @@ export default {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 100)
     this.renderer = new THREE.WebGLRenderer()
+
+    // WebGL background color
+    this.renderer.setClearColor('#fff', 1)
+
     // set renderer size
     this.renderer.setSize(this.width, this.height)
 
     // set camera position
-    this.camera.position.set( 0, 0, 100 )
+    this.camera.position.set( 0, 0, 10 )
     this.camera.lookAt( 0, 0, 0 )
-    //
-    // controls.addEventListener("change", () => renderer.render(scene, camera));
-    // invalidation.then(() => renderer.dispose());
+
+    // orbital controls
+    const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    controls.addEventListener("change", () => this.renderer.render(this.scene, this.camera));
   },
   mounted() {
     this.$refs.container.appendChild(this.renderer.domElement)
@@ -68,14 +75,16 @@ export default {
         9, 1, 6, // bottom left
       ]
 
+      const geometry = new THREE.PolyhedronGeometry(vertices, faces, 1, 0)
+      const material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+      })
+      const mesh = new THREE.Mesh(geometry, material)
+      // scale the mesh
+      mesh.scale.set(0.75, 1, 0.75)
 
-      const geometry = new THREE.PolyhedronGeometry(vertices, faces, 30, 0)
-      // const material = new THREE.ShaderMaterial({
-      //   vertexShader,
-      //   fragmentShader,
-      // })
-      // const mesh = new THREE.Mesh(geometry, material)
-      // this.scene.add(mesh)
+      this.scene.add(mesh)
     }
   }
 }
