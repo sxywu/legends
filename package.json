@@ -13,6 +13,7 @@
     "glsl-hsl2rgb": "^1.1.0",
     "glsl-noise": "0.0.0",
     "glslify": "^7.0.0",
+    "lodash": "^4.17.11",
     "three": "^0.99.0",
     "three-orbit-controls": "^82.1.0",
     "vue": "^2.5.19",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.3.0",
-    "vue-template-compiler": "^2.5.19"
+    "vue-template-compiler": "^2.5.19",
+    "wikijs": "^4.10.1"
   }
 }
