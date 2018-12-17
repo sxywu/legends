@@ -1,0 +1,366 @@
+[
+  {
+    "Year": 1903,
+    "Laureate": "Marie Skłodowska Curie",
+    "Country": "Poland and France",
+    "Category": "Physics",
+    "Rationale": "in recognition of the extraordinary services they have rendered by their joint researches on the radiation phenomena discovered by Professor Henri Becquerel"
+  },
+  {
+    "Year": 1905,
+    "Laureate": "Bertha von Suttner",
+    "Country": "Austria–Hungary",
+    "Category": "Peace",
+    "Rationale": "Honorary President of Permanent International Peace Bureau, Bern, Switzerland; Author of Lay Down Your Arms."
+  },
+  {
+    "Year": 1909,
+    "Laureate": "Selma Lagerlöf",
+    "Country": "Sweden",
+    "Category": "Literature",
+    "Rationale": "in appreciation of the lofty idealism, vivid imagination and spiritual perception that characterize her writings"
+  },
+  {
+    "Year": 1911,
+    "Laureate": "Marie Skłodowska Curie",
+    "Country": "Poland and France",
+    "Category": "Chemistry",
+    "Rationale": "for her discovery of radium and polonium"
+  },
+  {
+    "Year": 1926,
+    "Laureate": "Grazia Deledda",
+    "Country": "Italy",
+    "Category": "Literature",
+    "Rationale": "for her idealistically inspired writings which with plastic clarity picture the life on her native island and with depth and sympathy deal with human problems in general"
+  },
+  {
+    "Year": 1928,
+    "Laureate": "Sigrid Undset",
+    "Country": "Norway",
+    "Category": "Literature",
+    "Rationale": "principally for her powerful descriptions of Northern life during the Middle Ages"
+  },
+  {
+    "Year": 1931,
+    "Laureate": "Jane Addams",
+    "Country": "United States",
+    "Category": "Peace",
+    "Rationale": "Sociologist; International President, Women's International League for Peace and Freedom."
+  },
+  {
+    "Year": 1935,
+    "Laureate": "Irène Joliot-Curie",
+    "Country": "France",
+    "Category": "Chemistry",
+    "Rationale": "for their synthesis of new radioactiveelements"
+  },
+  {
+    "Year": 1938,
+    "Laureate": "Pearl S. Buck",
+    "Country": "United States",
+    "Category": "Literature",
+    "Rationale": "for her rich and truly epic descriptions of peasant life in China and for her biographical masterpieces"
+  },
+  {
+    "Year": 1945,
+    "Laureate": "Gabriela Mistral",
+    "Country": "Chile",
+    "Category": "Literature",
+    "Rationale": "for her lyric poetry which, inspired by powerful emotions, has made her name a symbol of the idealistic aspirations of the entire Latin American world"
+  },
+  {
+    "Year": 1946,
+    "Laureate": "Emily Greene Balch",
+    "Country": "United States",
+    "Category": "Peace",
+    "Rationale": "Formerly Professor of History and Sociology; Honorary International President, Women's International League for Peace and Freedom."
+  },
+  {
+    "Year": 1947,
+    "Laureate": "Gerty Theresa Cori",
+    "Country": "United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for their discovery of the course of the catalytic conversion of glycogen"
+  },
+  {
+    "Year": 1963,
+    "Laureate": "Maria Goeppert-Mayer",
+    "Country": "United States",
+    "Category": "Physics",
+    "Rationale": "for their discoveries concerning nuclear shell structure"
+  },
+  {
+    "Year": 1964,
+    "Laureate": "Dorothy Crowfoot Hodgkin",
+    "Country": "United Kingdom",
+    "Category": "Chemistry",
+    "Rationale": "for her determinations by X-ray techniques of the structures of important biochemical substances"
+  },
+  {
+    "Year": 1966,
+    "Laureate": "Nelly Sachs)",
+    "Country": "Sweden and Germany",
+    "Category": "Literature",
+    "Rationale": "for her outstanding lyrical and dramatic writing, which interprets Israel's destiny with touching strength"
+  },
+  {
+    "Year": 1976,
+    "Laureate": "Betty Williams",
+    "Country": "United Kingdom",
+    "Category": "Peace",
+    "Rationale": "Founder of the Northern Ireland Peace Movement (later renamed Community of Peace People)"
+  },
+  {
+    "Year": 1976,
+    "Laureate": "Mairead Maguire",
+    "Country": "United Kingdom",
+    "Category": "Peace",
+    "Rationale": "Founder of the Northern Ireland Peace Movement (later renamed Community of Peace People)"
+  },
+  {
+    "Year": 1977,
+    "Laureate": "Rosalyn Sussman Yalow",
+    "Country": "United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for the development of radioimmunoassays of peptide hormones"
+  },
+  {
+    "Year": 1979,
+    "Laureate": "Mother Teresa",
+    "Country": "India and Yugoslavia",
+    "Category": "Peace",
+    "Rationale": "Leader of Missionaries of Charity, Calcutta."
+  },
+  {
+    "Year": 1982,
+    "Laureate": "Alva Myrdal",
+    "Country": "Sweden",
+    "Category": "Peace",
+    "Rationale": "Former Cabinet Minister; Diplomat; Writer."
+  },
+  {
+    "Year": 1983,
+    "Laureate": "Barbara McClintock",
+    "Country": "United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for her discovery of mobile genetic elements"
+  },
+  {
+    "Year": 1986,
+    "Laureate": "Rita Levi-Montalcini",
+    "Country": "Italy and United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for their discoveries of growth factors"
+  },
+  {
+    "Year": 1988,
+    "Laureate": "Gertrude B. Elion",
+    "Country": "United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for their discoveries of important principles for drug treatment"
+  },
+  {
+    "Year": 1991,
+    "Laureate": "Nadine Gordimer",
+    "Country": "South Africa",
+    "Category": "Literature",
+    "Rationale": "who through her magnificent epic writing has - in the words of Alfred Nobel - been of very great benefit to humanity"
+  },
+  {
+    "Year": 1991,
+    "Laureate": "Aung San Suu Kyi",
+    "Country": "Burma",
+    "Category": "Peace",
+    "Rationale": "for her non-violent struggle for democracy and human rights"
+  },
+  {
+    "Year": 1992,
+    "Laureate": "Rigoberta Menchú",
+    "Country": "Guatemala",
+    "Category": "Peace",
+    "Rationale": "in recognition of her work for social justice and ethno-cultural reconciliation based on respect for the rights of indigenous peoples"
+  },
+  {
+    "Year": 1993,
+    "Laureate": "Toni Morrison",
+    "Country": "United States",
+    "Category": "Literature",
+    "Rationale": "who in novels characterized by visionary force and poetic import, gives life to an essential aspect of American reality"
+  },
+  {
+    "Year": 1995,
+    "Laureate": "Christiane Nüsslein-Volhard",
+    "Country": "Germany",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for their discoveries concerning the genetic control of early embryonic development"
+  },
+  {
+    "Year": 1996,
+    "Laureate": "Wisława Szymborska",
+    "Country": "Poland",
+    "Category": "Literature",
+    "Rationale": "for poetry that with ironic precision allows the historical and biological context to come to light in fragments of human reality"
+  },
+  {
+    "Year": 1997,
+    "Laureate": "Jody Williams",
+    "Country": "United States",
+    "Category": "Peace",
+    "Rationale": "for their work for the banning and clearing of anti-personnel mines"
+  },
+  {
+    "Year": 2003,
+    "Laureate": "Shirin Ebadi",
+    "Country": "Iran",
+    "Category": "Peace",
+    "Rationale": "for her efforts for democracy and human rights. She has focused especially on the struggle for the rights of women and children"
+  },
+  {
+    "Year": 2004,
+    "Laureate": "Elfriede Jelinek",
+    "Country": "Austria",
+    "Category": "Literature",
+    "Rationale": "for her musical flow of voices and counter-voices in novels and plays that with extraordinary linguistic zeal reveal the absurdity of society's clichés and their subjugating power"
+  },
+  {
+    "Year": 2004,
+    "Laureate": "Wangari Maathai",
+    "Country": "Kenya",
+    "Category": "Peace",
+    "Rationale": "for her contribution to sustainable development, democracy and peace"
+  },
+  {
+    "Year": 2004,
+    "Laureate": "Linda B. Buck",
+    "Country": "United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for their discoveries of odorant receptors and the organization of the olfactory system"
+  },
+  {
+    "Year": 2007,
+    "Laureate": "Doris Lessing",
+    "Country": "United Kingdom",
+    "Category": "Literature",
+    "Rationale": "that epicist of the female experience, who with scepticism, fire and visionary power has subjected a divided civilisation to scrutiny"
+  },
+  {
+    "Year": 2008,
+    "Laureate": "Françoise Barré-Sinoussi",
+    "Country": "France",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for their discovery of HIV, human immunodeficiency virus"
+  },
+  {
+    "Year": 2009,
+    "Laureate": "Elizabeth Blackburn",
+    "Country": "Australia and United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for the discovery of how chromosomes are protected by telomeres and the enzyme telomerase"
+  },
+  {
+    "Year": 2009,
+    "Laureate": "Carol W. Greider",
+    "Country": "United States",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for the discovery of how chromosomes are protected by telomeres and the enzyme telomerase"
+  },
+  {
+    "Year": 2009,
+    "Laureate": "Ada E. Yonath",
+    "Country": "Israel",
+    "Category": "Chemistry",
+    "Rationale": "for studies of the structure and function of the ribosome"
+  },
+  {
+    "Year": 2009,
+    "Laureate": "Herta Müller",
+    "Country": "Germany and Romania",
+    "Category": "Literature",
+    "Rationale": "who, with the concentration of poetry and the frankness of prose, depicts the landscape of the dispossessed"
+  },
+  {
+    "Year": 2009,
+    "Laureate": "Elinor Ostrom",
+    "Country": "United States",
+    "Category": "Economics",
+    "Rationale": "for her analysis of economic governance, especially the commons"
+  },
+  {
+    "Year": 2011,
+    "Laureate": "Ellen Johnson Sirleaf",
+    "Country": "Liberia",
+    "Category": "Peace",
+    "Rationale": "For their non-violent struggle for the safety of women and for women's rights to full participation in peace-building work"
+  },
+  {
+    "Year": 2011,
+    "Laureate": "Leymah Gbowee",
+    "Country": "Liberia",
+    "Category": "Peace",
+    "Rationale": "For their non-violent struggle for the safety of women and for women's rights to full participation in peace-building work"
+  },
+  {
+    "Year": 2011,
+    "Laureate": "Tawakel Karman",
+    "Country": "Yemen",
+    "Category": "Peace",
+    "Rationale": "For their non-violent struggle for the safety of women and for women's rights to full participation in peace-building work"
+  },
+  {
+    "Year": 2013,
+    "Laureate": "Alice Munro",
+    "Country": "Canada",
+    "Category": "Literature",
+    "Rationale": "master of the contemporary short story"
+  },
+  {
+    "Year": 2014,
+    "Laureate": "May-Britt Moser",
+    "Country": "Norway",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for their discoveries of cells that constitute a positioning system in the brain"
+  },
+  {
+    "Year": 2014,
+    "Laureate": "Malala Yousafzai",
+    "Country": "Pakistan and India",
+    "Category": "Peace",
+    "Rationale": "for their struggle against the suppression of children and young people and for the right of all children to education\"."
+  },
+  {
+    "Year": 2015,
+    "Laureate": "Tu Youyou",
+    "Country": "China",
+    "Category": "Physiology or Medicine",
+    "Rationale": "for her discoveries concerning a novel therapy against Malaria"
+  },
+  {
+    "Year": 2015,
+    "Laureate": "Svetlana Alexievich",
+    "Country": "Belarus",
+    "Category": "Literature",
+    "Rationale": "for her polyphonic writings, a monument to suffering and courage in our time"
+  },
+  {
+    "Year": 2018,
+    "Laureate": "Donna Strickland",
+    "Country": "Canada",
+    "Category": "Physics",
+    "Rationale": "for their method of generating high-intensity, ultra-short optical pulses"
+  },
+  {
+    "Year": 2018,
+    "Laureate": "Frances Arnold",
+    "Country": "United States",
+    "Category": "Chemistry",
+    "Rationale": "for the directed evolution of enzymes"
+  },
+  {
+    "Year": 2018,
+    "Laureate": "Nadia Murad",
+    "Country": "Iraq",
+    "Category": "Peace",
+    "Rationale": "for their efforts to end the use of sexual violence as a weapon of war and armed conflict"
+  }
+]
