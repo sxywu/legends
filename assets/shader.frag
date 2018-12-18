@@ -1,5 +1,6 @@
 uniform float colorType;
 varying vec2 vUv;
+varying vec3 vNormal;
 // for noise
 #pragma glslify: noise = require('glsl-noise/simplex/3d');
 #pragma glslify: hsl2rgb = require('glsl-hsl2rgb');
@@ -12,11 +13,13 @@ void main() {
   vec3 color = vec3(0.0);
 
   vec3 pct = vec3(vUv, 1.0);
-  
+
   pct.r = 1.0;
-  pct.g = sin(vUv.y) * 1.5;
-  pct.b = sin(vUv.y * 1.0);
+  // pct.g = sin(vUv.y) * 1.0;
+  pct.g = sin(vUv.y * 1.2);
+  pct.b = sin(vUv.y * 1.5);
 
   color = mix(colorA, colorB, pct);
+  color += vNormal.x * 0.2 + vNormal.y * 0.2 + vNormal.z * 0.1;
   gl_FragColor = vec4(color, 1.0);
 }

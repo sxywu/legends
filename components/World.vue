@@ -88,10 +88,15 @@ export default {
     },
     createMesh: function(numFaces, color) {
       const geometry = new THREE.SphereGeometry( 1, numFaces, 4 )
-      // const material = new THREE.MeshPhongMaterial({
-			// 	color: color,
-			// 	flatShading: true
-			// })
+      // jitter vertices
+      _.each(geometry.vertices, v => {
+        v.x += _.random(-0.1, 0.1)
+        v.y += _.random(-0.1, 0.1)
+        v.z += _.random(-0.1, 0.1)
+      })
+
+      geometry.computeFlatVertexNormals()
+      
       const material = new THREE.ShaderMaterial({
         flatShading: true,
         vertexShader,
@@ -102,12 +107,7 @@ export default {
         },
       })
 
-      // jitter vertices
-      _.each(geometry.vertices, v => {
-        v.x += _.random(-0.1, 0.1)
-        v.y += _.random(-0.1, 0.1)
-        v.z += _.random(-0.1, 0.1)
-      })
+
       return new THREE.Mesh(geometry, material)
     }
   }
