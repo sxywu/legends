@@ -38,16 +38,6 @@ export default {
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
     controls.addEventListener("change", () => this.renderer.render(this.scene, this.camera));
 
-    // lights
-    const ambientLight = new THREE.AmbientLight(0x666666);
-		const directionalLight = new THREE.DirectionalLight(0xffbbaa);
-
-		directionalLight.position.set(0, 1, 1);
-		// directionalLight.target.position.copy(this.scene.position);
-
-		this.scene.add(directionalLight);
-		this.scene.add(ambientLight);
-
     // create scales:
     // faces: number of sources
     // z-index: decade of award
@@ -96,7 +86,7 @@ export default {
       })
 
       geometry.computeFlatVertexNormals()
-      
+
       const material = new THREE.ShaderMaterial({
         flatShading: true,
         vertexShader,
