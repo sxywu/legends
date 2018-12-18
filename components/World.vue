@@ -48,7 +48,8 @@ export default {
     this.facesScale = scaleQuantize().domain(facesDomain).range([1, 2, 3])
     this.sizeScale = scaleLinear().domain(sizeDomain).range([0.25, 2])
     this.xScale = scaleLinear().domain([0, 9]).range([-5, 5])
-    this.zScale = scaleLinear().domain(zDomain).range([-50, 0])
+    this.zScale = scaleLinear().domain(zDomain).range([-20, 0])
+    this.colors = _.chain(this.legends).map('category').uniq().value()
   },
   mounted() {
     this.$refs.container.appendChild(this.renderer.domElement)
@@ -63,15 +64,16 @@ export default {
         const size = this.sizeScale(d.backlinks)
         const x = this.xScale(d.year - d.decade)
         const z = this.zScale(d.decade)
+        const color = this.colors.indexOf(d.category) / this.colors.length
 
-        const mesh = this.createMesh(faces)
+        const mesh = this.createMesh(faces, color)
         mesh.scale.set(size * 0.5, size, size * 0.5)
         mesh.position.set(x, 0, z)
 
         this.scene.add(mesh)
       })
     },
-    createMesh: function(numFaces) {
+    createMesh: function(numFaces, color) {
       // create just one triangle
       let vertices = [
         -1, 1, 1, // 0: left top front
@@ -123,9 +125,13 @@ export default {
 
       const geometry = new THREE.PolyhedronGeometry(vertices, faces, 1, 0)
       const material = new THREE.ShaderMaterial({
+        flatShading: true,
         vertexShader,
         fragmentShader,
         side: THREE.DoubleSide,
+        uniforms: {
+          color: {value: color},
+        },
       })
       return new THREE.Mesh(geometry, material)
     }
