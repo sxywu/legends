@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import {extent, scaleLinear} from 'd3'
 import * as THREE from 'three'
 const OrbitControls = require('three-orbit-controls')(THREE)
 const vertexShader = require('../assets/shader.vert')
@@ -10,6 +12,7 @@ const fragmentShader = require('../assets/shader.frag')
 
 export default {
   name: 'world',
+  props: ['legends'],
   data() {
     return {
       width: window.innerWidth,
@@ -34,14 +37,34 @@ export default {
     // orbital controls
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
     controls.addEventListener("change", () => this.renderer.render(this.scene, this.camera));
+
+    // create scales:
+    // z-index: decade of award
+    // size: backlinks
+    const sizeDomain = extent(this.legends, d => d.backlinks)
+    const zDomain = extent(this.legends, d => d.decade)
+    this.sizeScale = scaleLinear().domain(sizeDomain).range([0.25, 2])
+    this.zScale = scaleLinear().domain(zDomain).range([-50, 0])
   },
   mounted() {
     this.$refs.container.appendChild(this.renderer.domElement)
-    this.createMesh()
+    this.renderData()
 
     this.renderer.render(this.scene, this.camera)
   },
   methods: {
+    renderData() {
+      _.each(this.legends, d => {
+        const mesh = this.createMesh()
+
+        const size = this.sizeScale(d.backlinks)
+        const z = this.zScale(d.decade)
+        mesh.scale.set(size * 0.5, size, size * 0.5)
+        mesh.position.set(0, 0, z)
+
+        this.scene.add(mesh)
+      })
+    },
     createMesh: function() {
       // create just one triangle
       const vertices = [
@@ -75,16 +98,12 @@ export default {
         9, 1, 6, // bottom left
       ]
 
-      const geometry = new THREE.PolyhedronGeometry(vertices, faces, 2, 0)
+      const geometry = new THREE.PolyhedronGeometry(vertices, faces, 1, 0)
       const material = new THREE.ShaderMaterial({
         vertexShader,
         fragmentShader,
       })
-      const mesh = new THREE.Mesh(geometry, material)
-      // scale the mesh
-      mesh.scale.set(0.75, 1, 0.75)
-
-      this.scene.add(mesh)
+      return new THREE.Mesh(geometry, material)
     }
   }
 }
