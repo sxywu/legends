@@ -47,6 +47,7 @@ export default {
     const zDomain = extent(this.legends, d => d.decade)
     this.facesScale = scaleQuantize().domain(facesDomain).range([1, 2, 3])
     this.sizeScale = scaleLinear().domain(sizeDomain).range([0.25, 2])
+    this.xScale = scaleLinear().domain([0, 9]).range([-5, 5])
     this.zScale = scaleLinear().domain(zDomain).range([-50, 0])
   },
   mounted() {
@@ -60,11 +61,12 @@ export default {
       _.each(this.legends, d => {
         const faces = this.facesScale(d.references)
         const size = this.sizeScale(d.backlinks)
+        const x = this.xScale(d.year - d.decade)
         const z = this.zScale(d.decade)
 
         const mesh = this.createMesh(faces)
         mesh.scale.set(size * 0.5, size, size * 0.5)
-        mesh.position.set(0, 0, z)
+        mesh.position.set(x, 0, z)
 
         this.scene.add(mesh)
       })
@@ -106,7 +108,6 @@ export default {
           8, 5, 7, // top back
           8, 7, 0, // top left
         ])
-          console.log(numFaces, faces)
       }
       if (numFaces > 2) {
         vertices = _.concat(vertices, [
@@ -118,7 +119,6 @@ export default {
           9, 6, 4, // bottom back
           9, 1, 6, // bottom left
         ])
-          console.log(numFaces, faces)
       }
 
       const geometry = new THREE.PolyhedronGeometry(vertices, faces, 1, 0)
