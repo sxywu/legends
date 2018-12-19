@@ -22,8 +22,8 @@ void main() {
   } else {
     // sciences
     pct.r = 1.0 - sin(vUv.y * 1.5) + 0.25;
-    pct.g = vUv.y - 0.5;
-    pct.b = 1.0 - sin(vUv.y * 1.5) + 0.25;
+    pct.g = vUv.y - 0.35;
+    pct.b = 1.0 - sin(vUv.y * 1.5) + 0.35;
   }
 
   color = mix(colorA, colorB, pct);
