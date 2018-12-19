@@ -73,7 +73,7 @@ export default {
         const mesh = this.createMesh(faces, color)
         mesh.scale.set(size * 0.5, size, size * 0.5)
         // mesh.scale.set(size, size, size)
-        mesh.position.set(x, -size / 2, z)
+        mesh.position.set(x, 0, z)
 
         this.scene.add(mesh)
       })
