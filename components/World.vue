@@ -9,6 +9,7 @@ import * as THREE from 'three'
 const OrbitControls = require('three-orbit-controls')(THREE)
 const vertexShader = require('../assets/shader.vert')
 const fragmentShader = require('../assets/shader.frag')
+import textureImage from '../assets/texture1.jpg'
 
 export default {
   name: 'world',
@@ -35,8 +36,13 @@ export default {
     this.camera.lookAt( 0, 0, 0 )
 
     // orbital controls
-    const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    controls.addEventListener("change", () => this.renderer.render(this.scene, this.camera));
+    const controls = new OrbitControls(this.camera, this.renderer.domElement)
+    controls.addEventListener("change", () => this.renderer.render(this.scene, this.camera))
+
+    // texture map
+    this.textureMap = new THREE.TextureLoader().load(textureImage, texture => {
+      this.renderer.render(this.scene, this.camera)
+    })
 
     // create scales:
     // faces: number of sources
@@ -86,7 +92,6 @@ export default {
         v.y += _.random(-0.1, 0.1)
         v.z += _.random(-0.1, 0.1)
       })
-
       geometry.computeFlatVertexNormals()
 
       const material = new THREE.ShaderMaterial({
@@ -96,9 +101,9 @@ export default {
         side: THREE.DoubleSide,
         uniforms: {
           colorType: {value: color},
+          textureMap: {value: this.textureMap},
         },
       })
-
 
       return new THREE.Mesh(geometry, material)
     }

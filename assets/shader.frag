@@ -1,4 +1,5 @@
 uniform float colorType;
+uniform sampler2D textureMap;
 varying vec2 vUv;
 varying vec3 vNormal;
 // for noise
@@ -26,7 +27,12 @@ void main() {
     pct.b = 1.0 - sin(vUv.y * 1.5) + 0.35;
   }
 
+  // gradient
   color = mix(colorA, colorB, pct);
+  // face normals
   color += vNormal.x * 0.2 + vNormal.y * 0.2 + vNormal.z * 0.1;
+  // texture
+  color += texture2D(textureMap, vUv).rgb * 0.5;
+
   gl_FragColor = vec4(color, 1.0);
 }
