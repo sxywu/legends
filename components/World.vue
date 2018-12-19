@@ -39,7 +39,8 @@ export default {
     const controls = new OrbitControls(this.camera, this.renderer.domElement)
     controls.addEventListener("change", () => this.renderer.render(this.scene, this.camera))
 
-    // texture map
+    // texture map, adapted from
+    // https://gist.github.com/mattdesl/d74525cf21a9755383651289c799ac56
     this.textureMap = new THREE.TextureLoader().load(textureImage, texture => {
       this.renderer.render(this.scene, this.camera)
     })
