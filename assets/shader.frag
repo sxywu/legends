@@ -17,8 +17,8 @@ void main() {
 
   if (colorType == 1.0) {
     // humanities
-    pct.r = 1.0;
-    pct.g = sin(vUv.y * 1.2);
+    pct.r = vUv.y - 0.25;
+    pct.g = sin(vUv.y * 1.2) + 0.25;
     pct.b = sin(vUv.y * 1.5);
   } else {
     // sciences
