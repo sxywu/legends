@@ -52,7 +52,7 @@ export default {
     })
 
     // lights
-    const hemisphere = new THREE.HemisphereLight( colors.pink, colors.yellow, 1.0 )
+    const hemisphere = new THREE.HemisphereLight( colors.purple, colors.yellow, 1.0 )
     this.scene.add(hemisphere)
     const ambient = new THREE.AmbientLight( colors.pink, 0.75 )
     this.scene.add(ambient)
@@ -105,7 +105,7 @@ export default {
         const z = this.zScale(d.decade)
         const color = this.colors[d.category]
 
-        const mesh = this.createMesh(faces, color)
+        const mesh = this.createCrystal(faces, color)
         mesh.scale.set(size * 0.5, size, size * 0.5)
         // mesh.scale.set(size, size, size)
         mesh.position.set(x, 0, z)
@@ -113,8 +113,22 @@ export default {
 
         this.scene.add(mesh)
       })
+
+      _.times(853, i => {
+        // small white dot
+        const star = new THREE.Mesh(
+          new THREE.SphereGeometry(0.05, 5, 5),
+          new THREE.MeshBasicMaterial( {
+            color: colors.yellow,
+            side: THREE.DoubleSide,
+          } )
+        )
+
+        star.position.set(_.random(-20, 20), _.random(0, 10), _.random(-50, 50))
+        this.scene.add( star )
+      })
     },
-    createMesh: function(numFaces, color) {
+    createCrystal: function(numFaces, color) {
       const geometry = new THREE.SphereGeometry( 1, numFaces, 4 )
       // jitter vertices
       _.each(geometry.vertices, v => {
