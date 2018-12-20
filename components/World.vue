@@ -56,20 +56,21 @@ export default {
     this.scene.add(hemisphere)
     const ambient = new THREE.AmbientLight( colors.pink, 0.75 )
     this.scene.add(ambient)
-    const light = new THREE.DirectionalLight( colors.yellow, 0.9 )
+    // directional
+    const light = new THREE.DirectionalLight( colors.yellow, 0.8 )
     light.position.set(0, 350, 350)
     light.castShadow = true
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     //Set up shadow properties for the light
-    light.shadow.mapSize.width = 2048;  // default
-    light.shadow.mapSize.height = 2048; // default
+    light.shadow.mapSize.width = 1028  // default
+    light.shadow.mapSize.height = 1028 // default
     light.shadow.camera.near = 1       // default
     light.shadow.camera.far = 1000     // default
-    light.shadow.camera.left = -400
-    light.shadow.camera.right = 400
-    light.shadow.camera.top = 400
-    light.shadow.camera.bottom = -400
+    light.shadow.camera.left = -100
+    light.shadow.camera.right = 100
+    light.shadow.camera.top = 100
+    light.shadow.camera.bottom = -100
     this.scene.add( light )
 
     // create scales:
@@ -114,15 +115,14 @@ export default {
         this.scene.add(mesh)
       })
 
+      const starGeometry = new THREE.SphereGeometry(0.05, 20, 20)
+      const starMaterial = new THREE.MeshBasicMaterial( {
+        color: colors.yellow,
+        side: THREE.DoubleSide,
+      })
       _.times(853, i => {
         // small white dot
-        const star = new THREE.Mesh(
-          new THREE.SphereGeometry(0.05, 5, 5),
-          new THREE.MeshBasicMaterial( {
-            color: colors.yellow,
-            side: THREE.DoubleSide,
-          } )
-        )
+        const star = new THREE.Mesh(starGeometry, starMaterial)
 
         star.position.set(_.random(-20, 20), _.random(0, 10), _.random(-50, 50))
         this.scene.add( star )
@@ -154,9 +154,9 @@ export default {
     createBackground: function() {
       // textured floor inspiration from
       // https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
-      const planeSize = 200
+      const planeSize = 100
       const plane = new THREE.Mesh(
-        new THREE.CylinderGeometry(planeSize, planeSize, 150, planeSize, 40),
+        new THREE.PlaneGeometry(planeSize, planeSize, 30, 30),
         new THREE.MeshStandardMaterial( {
           color: colors.pink,
       		transparent:true,
@@ -172,8 +172,7 @@ export default {
       })
       plane.receiveShadow = true
       plane.rotateX(-Math.PI / 2)
-      plane.rotateZ(-Math.PI / 2)
-      plane.translateZ(-planeSize - 2)
+      plane.translateZ(-3)
       this.scene.add( plane )
 
       // and add "sky"
