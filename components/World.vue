@@ -7,8 +7,8 @@ import _ from 'lodash'
 import {extent, scaleLinear, scaleOrdinal, scaleQuantize} from 'd3'
 import * as THREE from 'three'
 const OrbitControls = require('three-orbit-controls')(THREE)
-const vertexShader = require('../assets/shader.vert')
-const fragmentShader = require('../assets/shader.frag')
+const vertexShader = require('../assets/crystal.vert')
+const fragmentShader = require('../assets/crystal.frag')
 import textureImage from '../assets/texture1.jpg'
 const colors = {
   blue: 0x7BB2D9,
