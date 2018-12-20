@@ -2,7 +2,7 @@ uniform float colorType;
 uniform sampler2D textureMap;
 varying vec2 vUv;
 varying vec3 vNormal;
-#pragma glslify: blend = require(glsl-blend/reflect)
+#pragma glslify: blend = require(glsl-blend/linear-dodge)
 
 #define PI 3.14159265359
 vec3 colorA = vec3(0.149,0.141,0.912); // blue
@@ -34,7 +34,7 @@ void main() {
   // face normals
   color += vNormal.x * 0.2 + vNormal.y * 0.2 + vNormal.z * 0.1;
   // texture
-  color = blend(color, sin(texture2D(textureMap, vUv).rgb * 2.5) * 0.5);
+  color = blend(color, sin(texture2D(textureMap, vUv).rgb * 2.5) * 0.25);
 
   gl_FragColor = vec4(color, 1.0);
 }
