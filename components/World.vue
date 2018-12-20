@@ -54,18 +54,22 @@ export default {
     // lights
     const hemisphere = new THREE.HemisphereLight( colors.yellow, colors.pink, 1.0 )
     this.scene.add(hemisphere)
-    const ambient = new THREE.AmbientLight( colors.pink, 1.0 )
+    const ambient = new THREE.AmbientLight( colors.pink, 0.75 )
     this.scene.add(ambient)
-    const light = new THREE.DirectionalLight( colors.yellow, 0.2 )
-    light.position.set( 0, 50, 0 )
+    const light = new THREE.DirectionalLight( 0xffffff, 0.9 )
+    light.position.set(150, 350, 350)
     light.castShadow = true
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     //Set up shadow properties for the light
-    light.shadow.mapSize.width = 512;  // default
-    light.shadow.mapSize.height = 10000; // default
-    light.shadow.camera.near = 0.5;       // default
-    light.shadow.camera.far = 500      // default
+    light.shadow.mapSize.width = 2048;  // default
+    light.shadow.mapSize.height = 2048; // default
+    light.shadow.camera.near = 1       // default
+    light.shadow.camera.far = 1000     // default
+    light.shadow.camera.left = -400
+    light.shadow.camera.right = 400
+    light.shadow.camera.top = 400
+    light.shadow.camera.bottom = -400
     this.scene.add( light )
 
     // create scales:
@@ -146,7 +150,7 @@ export default {
 
       // and add "sky"
       const sky = new THREE.Mesh(
-        new THREE.SphereGeometry(60, 10, 10),
+        new THREE.SphereGeometry(60, 20, 20),
         new THREE.MeshPhysicalMaterial( {color: colors.blue, side: THREE.BackSide } )
       )
       this.scene.add( sky )
