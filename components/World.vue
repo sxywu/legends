@@ -1,5 +1,5 @@
 <template>
-  <div ref='container' :width='width' :height='height' />
+  <div id='world' ref='container' :width='width' :height='height' />
 </template>
 
 <script>
@@ -32,7 +32,7 @@ export default {
     this.renderer = new THREE.WebGLRenderer({antialias: true})
 
     // WebGL background color
-    this.renderer.setClearColor('#fff', 1)
+    this.renderer.setClearColor(0xffffff, 1)
 
     // set renderer size
     this.renderer.setSize(this.width, this.height)
@@ -52,12 +52,12 @@ export default {
     })
 
     // lights
-    const hemisphere = new THREE.HemisphereLight( colors.yellow, colors.pink, 1.0 )
+    const hemisphere = new THREE.HemisphereLight( colors.pink, colors.yellow, 1.0 )
     this.scene.add(hemisphere)
     const ambient = new THREE.AmbientLight( colors.pink, 0.75 )
     this.scene.add(ambient)
-    const light = new THREE.DirectionalLight( 0xffffff, 0.9 )
-    light.position.set(150, 350, 350)
+    const light = new THREE.DirectionalLight( colors.yellow, 0.9 )
+    light.position.set(0, 350, 350)
     light.castShadow = true
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
@@ -138,20 +138,37 @@ export default {
       return new THREE.Mesh(geometry, material)
     },
     createBackground: function() {
+      // textured floor inspiration from
+      // https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
+      const planeSize = 200
       const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(1000, 1000),
-        new THREE.MeshStandardMaterial( {color: colors.pink, side: THREE.DoubleSide} )
+        new THREE.CylinderGeometry(planeSize, planeSize, 150, planeSize, 40),
+        new THREE.MeshStandardMaterial( {
+          color: colors.pink,
+      		transparent:true,
+      		opacity: 1.0,
+          side: THREE.DoubleSide,
+      		shading:THREE.FlatShading,
+        } )
       )
-      // plane.rotation.x += Math.PI / 2
-      plane.rotateX(-Math.PI / 2)
-      plane.translateZ(-2)
+      _.each(plane.geometry.vertices, v => {
+        v.x += _.random(-0.5, 0.5)
+        v.y += _.random(-0.5, 0.5)
+        v.z += _.random(-0.5, 0.5)
+      })
       plane.receiveShadow = true
+      plane.rotateX(-Math.PI / 2)
+      plane.rotateZ(-Math.PI / 2)
+      plane.translateZ(-planeSize - 2)
       this.scene.add( plane )
 
       // and add "sky"
       const sky = new THREE.Mesh(
         new THREE.SphereGeometry(60, 20, 20),
-        new THREE.MeshPhysicalMaterial( {color: colors.blue, side: THREE.BackSide } )
+        new THREE.MeshStandardMaterial( {
+          color: colors.pink,
+          side: THREE.BackSide,
+        } )
       )
       this.scene.add( sky )
     },
