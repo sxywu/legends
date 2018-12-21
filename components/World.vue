@@ -33,8 +33,8 @@ export default {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
-      textWidth: 205,
-      textHeight: 60,
+      textWidth: 820,
+      textHeight: 240,
     }
   },
   created() {
@@ -143,7 +143,7 @@ export default {
 
         const obj = {mesh: text, x, z}
         this.calculateTextOpacity(obj, cameraPosition)
-        text.position.set(x, size + this.textHeight / 100, z)
+        text.position.set(x, size + this.textHeight / 400, z)
         this.scene.add(text)
 
         return obj
@@ -204,18 +204,18 @@ export default {
       // text1
       ctx.fillStyle = color
       ctx.strokeStyle = color
-      ctx.font = '14px Libre Baskerville'
+      ctx.font = '56px Libre Baskerville'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.fillText(name, x, y1)
       ctx.strokeText(name, x, y1)
-      ctx.font = '11px Libre Baskerville'
+      ctx.font = '44px Libre Baskerville'
       ctx.fillText(text2, x, y2)
       ctx.strokeText(text2, x, y2)
 
       const texture = new THREE.Texture(canvas)
 
-      const geometry = new THREE.PlaneGeometry(this.textWidth / 100, this.textHeight / 100, 1, 1)
+      const geometry = new THREE.PlaneGeometry(this.textWidth / 400, this.textHeight / 400, 1, 1)
       const material = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: true,
