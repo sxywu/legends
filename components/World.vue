@@ -290,7 +290,7 @@ export default {
     createBackground: function() {
       // textured floor inspiration from
       // https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
-      const planeSize = 2 * outerRadius
+      const planeSize = 3 * outerRadius
       const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(planeSize, planeSize, planeSize / 3, planeSize / 3),
         new THREE.MeshStandardMaterial( {
