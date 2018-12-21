@@ -51,8 +51,10 @@ export default {
     this.camera.lookAt( 0, 0, 0 )
 
     // orbital controls
-    const controls = new OrbitControls(this.camera, this.renderer.domElement)
-    controls.addEventListener("change", () => this.renderer.render(this.scene, this.camera))
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+    this.controls.maxDistance = 40
+    this.controls.maxPolarAngle = Math.PI / 2
+    this.controls.addEventListener('change', this.updateCamera)
 
     // texture map, adapted from
     // https://gist.github.com/mattdesl/d74525cf21a9755383651289c799ac56
@@ -66,21 +68,22 @@ export default {
     const ambient = new THREE.AmbientLight( colors.pink, 0.75 )
     this.scene.add(ambient)
     // directional
-    const light = new THREE.DirectionalLight( colors.yellow, 0.8 )
-    light.position.set(0, 350, 350)
-    light.castShadow = true
+    this.light = new THREE.DirectionalLight( colors.yellow, 0.8 )
+    this.light.position.set(0, 350, 350)
+    this.light.rotateOnAxis(new THREE.Vector3(0, 0, 0), -Math.PI)
+    this.light.castShadow = true
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    //Set up shadow properties for the light
-    light.shadow.mapSize.width = 1028  // default
-    light.shadow.mapSize.height = 1028 // default
-    light.shadow.camera.near = 1       // default
-    light.shadow.camera.far = 1000     // default
-    light.shadow.camera.left = -100
-    light.shadow.camera.right = 100
-    light.shadow.camera.top = 100
-    light.shadow.camera.bottom = -100
-    this.scene.add( light )
+    //Set up shadow properties for the this.light
+    this.light.shadow.mapSize.width = 1028  // default
+    this.light.shadow.mapSize.height = 1028 // default
+    this.light.shadow.camera.near = 1       // default
+    this.light.shadow.camera.far = 1000     // default
+    this.light.shadow.camera.left = -100
+    this.light.shadow.camera.right = 100
+    this.light.shadow.camera.top = 100
+    this.light.shadow.camera.bottom = -100
+    this.scene.add( this.light )
 
     // create scales:
     // faces: number of sources
@@ -125,7 +128,7 @@ export default {
 
         const text = this.createText(d.name, d.categoryLabel || d.category, i)
 
-        text.position.set(x, -size - this.textHeight / 200, z)
+        text.position.set(x, -size - this.textHeight / 200 - 0.1, z)
         this.scene.add(text)
       })
 
@@ -215,7 +218,7 @@ export default {
       })
       plane.receiveShadow = true
       plane.rotateX(-Math.PI / 2)
-      plane.translateZ(-3.5)
+      plane.translateZ(-2.5)
       this.scene.add( plane )
 
       // and add "sky"
@@ -228,6 +231,14 @@ export default {
       )
       this.scene.add( sky )
     },
+    updateCamera: function() {
+      let angle = this.controls.getAzimuthalAngle()
+      const x = 350 * Math.sin(angle)
+      const z = 350 * Math.cos(angle)
+      this.light.position.set(x, 350, z)
+
+      this.renderer.render(this.scene, this.camera)
+    }
   }
 }
 </script>
