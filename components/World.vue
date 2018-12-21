@@ -149,9 +149,9 @@ export default {
         const star = new THREE.Mesh(starGeometry, starMaterial)
 
         star.position.set(
-          _.random(-outerRadius / 2, outerRadius / 2),
+          _.random(-outerRadius, outerRadius),
           _.random(-1, 10),
-          _.random(-outerRadius / 2, outerRadius / 2)
+          _.random(-outerRadius, outerRadius)
         )
         this.scene.add( star )
       })
@@ -212,7 +212,7 @@ export default {
     createBackground: function() {
       // textured floor inspiration from
       // https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
-      const planeSize = 10 * outerRadius
+      const planeSize = 2 * outerRadius
       const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(planeSize, planeSize, planeSize / 3, planeSize / 3),
         new THREE.MeshStandardMaterial( {
@@ -233,7 +233,7 @@ export default {
 
       // and add "sky"
       const sky = new THREE.Mesh(
-        new THREE.SphereGeometry(planeSize + 20, 20, 20),
+        new THREE.SphereGeometry(outerRadius + 10, 20, 20),
         new THREE.MeshStandardMaterial( {
           color: colors.pink,
           side: THREE.BackSide,
