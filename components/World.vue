@@ -24,6 +24,8 @@ const colors = {
   purple: 0xCFBAE1,
 }
 
+const innerRadius = 30
+const outerRadius = innerRadius + 10
 export default {
   name: 'world',
   props: ['legends'],
@@ -47,13 +49,13 @@ export default {
     this.renderer.setSize(this.width, this.height)
 
     // set camera position
-    this.camera.position.set( 0, 0, 10 )
-    this.camera.lookAt( 0, 0, 0 )
+    this.camera.position.set( 0, 0, innerRadius / 2 + 10 )
+    this.camera.lookAt( 0, 0, -outerRadius )
 
     // orbital controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    this.controls.maxDistance = 40
-    this.controls.maxPolarAngle = Math.PI / 2
+    this.controls.maxDistance = outerRadius - 5
+    this.controls.maxPolarAngle = this.controls.minPolarAngle = Math.PI / 2
     this.controls.addEventListener('change', this.updateCamera)
 
     // texture map, adapted from
@@ -92,10 +94,9 @@ export default {
     const facesDomain = extent(this.legends, d => d.references)
     const sizeDomain = extent(this.legends, d => d.backlinks)
     const zDomain = extent(this.legends, d => d.decade)
-    this.facesScale = scaleQuantize().domain(facesDomain).range(_.range(4, 7))
+    this.facesScale = scaleQuantize().domain(facesDomain).range(_.range(5, 10))
     this.sizeScale = scaleLinear().domain(sizeDomain).range([0.5, 2])
-    this.xScale = scaleLinear().domain([0, 9]).range([-5, 5])
-    this.zScale = scaleLinear().domain(zDomain).range([-50, 0])
+    this.zScale = scaleLinear().domain(zDomain).range([-innerRadius / 2, innerRadius / 2])
 
     this.colors = {
       "Physics": 0, "Chemistry": 0, "Physiology or Medicine": 0,
@@ -111,25 +112,32 @@ export default {
   },
   methods: {
     renderData() {
-      _.each(this.legends, (d, i) => {
-        const faces = this.facesScale(d.references)
-        const size = this.sizeScale(d.backlinks)
-        const x = this.xScale(d.year - d.decade)
-        const z = this.zScale(d.decade)
-        const color = this.colors[d.category]
+      let length = 0
+      _.chain(this.legends)
+        .groupBy(d => d.decade)
+        .each(data => {
+          const perWidth = innerRadius / data.length
+          _.each(data, (d, i) => {
+            const faces = this.facesScale(d.references)
+            const size = this.sizeScale(d.backlinks)
+            const x = i * perWidth - innerRadius / 2 + _.random(-0.25, 0.25)
+            const z = this.zScale(d.decade)
+            const color = this.colors[d.category]
 
-        const crystal = this.createCrystal(faces, color)
-        crystal.scale.set(size * 0.5, size, size * 0.5)
-        // crystal.scale.set(size, size, size)
-        crystal.position.set(x, 0, z)
-        crystal.castShadow = true
+            const crystal = this.createCrystal(faces, color)
+            crystal.scale.set(size * 0.5, size, size * 0.5)
+            // crystal.scale.set(size, size, size)
+            crystal.position.set(x, 0, z)
+            crystal.castShadow = true
 
-        this.scene.add(crystal)
+            this.scene.add(crystal)
 
-        const text = this.createText(d.name, d.categoryLabel || d.category, d.year, i)
-        text.position.set(x, size + this.textHeight / 100, z)
-        this.scene.add(text)
-      })
+            const text = this.createText(d.name, d.categoryLabel || d.category, d.year, length + i)
+            text.position.set(x, size + this.textHeight / 100, z)
+            this.scene.add(text)
+          })
+          length += data.length
+        }).value()
 
       const starGeometry = new THREE.SphereGeometry(0.05, 20, 20)
       const starMaterial = new THREE.MeshBasicMaterial( {
@@ -140,7 +148,11 @@ export default {
         // small white dot
         const star = new THREE.Mesh(starGeometry, starMaterial)
 
-        star.position.set(_.random(-20, 20), _.random(0, 10), _.random(-50, 50))
+        star.position.set(
+          _.random(-outerRadius / 2, outerRadius / 2),
+          _.random(-1, 10),
+          _.random(-outerRadius / 2, outerRadius / 2)
+        )
         this.scene.add( star )
       })
     },
@@ -169,11 +181,10 @@ export default {
     },
     createText: function(name, category, year, index) {
       const color = '#50306c'
+      console.log(this.$refs)
       const canvas = this.$refs[`canvas${index}`][0]
       const ctx = canvas.getContext('2d')
       ctx.scale(2, 2)
-      // ctx.fillStyle = '#ffffff'
-      // ctx.fillRect(0, 0, this.textWidth, this.textHeight)
       ctx.fillStyle = color
       ctx.strokeStyle = color
       ctx.font = '14px Libre Baskerville'
@@ -201,9 +212,9 @@ export default {
     createBackground: function() {
       // textured floor inspiration from
       // https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
-      const planeSize = 100
+      const planeSize = 10 * outerRadius
       const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(planeSize, planeSize, 30, 30),
+        new THREE.PlaneGeometry(planeSize, planeSize, planeSize / 3, planeSize / 3),
         new THREE.MeshStandardMaterial( {
           color: colors.pink,
           side: THREE.DoubleSide,
@@ -222,7 +233,7 @@ export default {
 
       // and add "sky"
       const sky = new THREE.Mesh(
-        new THREE.SphereGeometry(60, 20, 20),
+        new THREE.SphereGeometry(planeSize + 20, 20, 20),
         new THREE.MeshStandardMaterial( {
           color: colors.pink,
           side: THREE.BackSide,
