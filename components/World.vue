@@ -1,9 +1,12 @@
 <template>
   <div id='world'>
   <div id='texts'>
-    <canvas class='hidden' v-for='(d, i) in legends' :ref='`canvas${i}`'
+    <canvas class='hidden' v-for='(d, i) in decades' :ref='`decade${i}`'
       :width='2 * textWidth' :height='2 * textHeight'
-      :style='{width: `${textWidth}px`, height: `${textHeight}px`}' />
+      :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
+    <canvas class='hidden' v-for='(d, i) in legends' :ref='`name${i}`'
+      :width='2 * textWidth' :height='2 * textHeight'
+      :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
   </div>
     <div ref='container' :width='width' :height='height'></div>
   </div>
@@ -35,6 +38,7 @@ export default {
       height: window.innerHeight,
       textWidth: 820,
       textHeight: 240,
+      decades: _.range(10), // hard code how many canvas to draw
     }
   },
   created() {
@@ -119,16 +123,21 @@ export default {
           return {count, decade: +decade}
         }).value()
 
+      // CRYSTALS
       const perWidth = innerRadius / (max(this.decades, d => d.count))
       this.crystals = _.chain(this.legends)
         .groupBy(d => d.decade)
         .map(data => {
           const offset = data.length * perWidth / 2
+          const z = this.zScale(data[0].decade)
+
+          const decade = _.find(this.decades, d => data[0].decade === d.decade)
+          Object.assign(decade, {x: offset, z})
+
           return _.map(data, (d, i) => {
             const faces = this.facesScale(d.references)
             const size = this.sizeScale(d.backlinks)
-            const x = i * perWidth - offset + _.random(-0.25, 0.25)
-            const z = this.zScale(d.decade)
+            const x = (i + 0.5) * perWidth - offset + _.random(-0.25, 0.25)
             const color = this.colors[d.category]
 
             const crystal = this.createCrystal(faces, color)
@@ -143,6 +152,7 @@ export default {
           })
         }).flatten().value()
 
+      // NAMES
       const cameraPosition = this.camera.getWorldPosition()
       this.names = _.map(this.crystals, (d, i) => {
         const {x, size, z} = d
@@ -157,6 +167,17 @@ export default {
         return obj
       })
 
+      // DECADES
+      _.each(this.decades, (d, i) => {
+        const {decade, x, z} = d
+        const text = this.createDecade(decade, i)
+        text.position.set(-x - 1, 0, z)
+        text.rotateX(-Math.PI / 2)
+
+        this.scene.add(text)
+      })
+
+      // STARS
       const starGeometry = new THREE.SphereGeometry(0.05, 20, 20)
       const starMaterial = new THREE.MeshBasicMaterial( {
         color: colors.yellow,
@@ -199,7 +220,7 @@ export default {
     },
     createText: function(name, category, year, index) {
       const color = '#50306c'
-      const canvas = this.$refs[`canvas${index}`][0]
+      const canvas = this.$refs[`name${index}`][0]
       const ctx = canvas.getContext('2d')
       ctx.scale(2, 2)
 
@@ -220,6 +241,38 @@ export default {
       ctx.font = '44px Libre Baskerville'
       ctx.fillText(text2, x, y2)
       ctx.strokeText(text2, x, y2)
+
+      const texture = new THREE.Texture(canvas)
+
+      const geometry = new THREE.PlaneGeometry(this.textWidth / 400, this.textHeight / 400, 1, 1)
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        opacity: 1.0,
+        side: THREE.DoubleSide,
+      })
+      material.map.needsUpdate = true
+
+      return new THREE.Mesh(geometry, material)
+    },
+    createDecade: function(decade, index) {
+      const color = '#50306c'
+      const canvas = this.$refs[`decade${index}`][0]
+      const ctx = canvas.getContext('2d')
+      ctx.scale(2, 2)
+
+      // configs
+      const x = this.textWidth / 2
+      const y = this.textHeight / 2
+
+      // text1
+      ctx.fillStyle = color
+      ctx.strokeStyle = color
+      ctx.font = '200px Libre Baskerville'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(decade, x, y)
+      ctx.strokeText(decade, x, y)
 
       const texture = new THREE.Texture(canvas)
 
