@@ -181,20 +181,27 @@ export default {
     },
     createText: function(name, category, year, index) {
       const color = '#50306c'
-      console.log(this.$refs)
       const canvas = this.$refs[`canvas${index}`][0]
       const ctx = canvas.getContext('2d')
       ctx.scale(2, 2)
+
+      // configs
+      const x = this.textWidth / 2
+      const y1 = this.textHeight / 3
+      const y2 = 2 * this.textHeight / 3
+      const text2 = `${category}, ${year}`
+
+      // text1
       ctx.fillStyle = color
       ctx.strokeStyle = color
       ctx.font = '14px Libre Baskerville'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
-      ctx.fillText(name, this.textWidth / 2, this.textHeight / 3)
-      ctx.strokeText(name, this.textWidth / 2, this.textHeight / 3)
+      ctx.fillText(name, x, y1)
+      ctx.strokeText(name, x, y1)
       ctx.font = '11px Libre Baskerville'
-      ctx.fillText(`${category}, ${year}`, this.textWidth / 2, 2 * this.textHeight / 3)
-      ctx.strokeText(`${category}, ${year}`, this.textWidth / 2, 2 * this.textHeight / 3)
+      ctx.fillText(text2, x, y2)
+      ctx.strokeText(text2, x, y2)
 
       const texture = new THREE.Texture(canvas)
 
