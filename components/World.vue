@@ -123,7 +123,7 @@ export default {
 
         this.scene.add(crystal)
 
-        const text = this.createText(d.name, d.category.split(' ')[0], i)
+        const text = this.createText(d.name, d.categoryLabel || d.category, i)
 
         text.position.set(x, -size - this.textHeight / 200, z)
         this.scene.add(text)
