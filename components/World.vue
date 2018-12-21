@@ -112,12 +112,11 @@ export default {
   },
   methods: {
     renderData() {
-      let length = 0
-      _.chain(this.legends)
+      this.crystals = _.chain(this.legends)
         .groupBy(d => d.decade)
-        .each(data => {
+        .map(data => {
           const perWidth = innerRadius / data.length
-          _.each(data, (d, i) => {
+          return _.map(data, (d, i) => {
             const faces = this.facesScale(d.references)
             const size = this.sizeScale(d.backlinks)
             const x = i * perWidth - innerRadius / 2 + _.random(-0.25, 0.25)
@@ -132,12 +131,23 @@ export default {
 
             this.scene.add(crystal)
 
-            const text = this.createText(d.name, d.categoryLabel || d.category, d.year, length + i)
-            text.position.set(x, size + this.textHeight / 100, z)
-            this.scene.add(text)
+            return {data: d, mesh: crystal, size, x, z,}
           })
-          length += data.length
-        }).value()
+        }).flatten().value()
+
+      const cameraPosition = this.camera.getWorldPosition()
+      this.names = _.map(this.crystals, (d, i) => {
+        const {x, size, z} = d
+        const {name, category, categoryLabel, year} = d.data
+        const text = this.createText(name, categoryLabel || category, year, i)
+
+        const obj = {mesh: text, x, z}
+        this.calculateTextOpacity(obj, cameraPosition)
+        text.position.set(x, size + this.textHeight / 100, z)
+        this.scene.add(text)
+
+        return obj
+      })
 
       const starGeometry = new THREE.SphereGeometry(0.05, 20, 20)
       const starMaterial = new THREE.MeshBasicMaterial( {
@@ -225,7 +235,7 @@ export default {
         new THREE.MeshStandardMaterial( {
           color: colors.pink,
           side: THREE.DoubleSide,
-      		shading:THREE.FlatShading,
+      		flatShading: true,
         } )
       )
       _.each(plane.geometry.vertices, v => {
@@ -249,13 +259,27 @@ export default {
       this.scene.add( sky )
     },
     updateCamera: function() {
+      // light position
       let angle = this.controls.getAzimuthalAngle()
       const x = 350 * Math.sin(angle)
       const z = 350 * Math.cos(angle)
       this.light.position.set(x, 350, z)
 
+      // fade text
+      const cameraPosition = this.camera.getWorldPosition()
+      _.each(this.names, d => {
+        this.calculateTextOpacity(d, cameraPosition)
+      })
+
       this.renderer.render(this.scene, this.camera)
-    }
+    },
+    calculateTextOpacity: function(d, p) {
+      // calculate dist
+      const dist = Math.sqrt(Math.pow(d.x - p.x, 2) + Math.pow(d.z - p.z, 2))
+      // if less than 12, 100% opacity, after that fade
+      const opacity = dist < 12 ? 1 : Math.max(1 - dist / (innerRadius / 2), 0)
+      d.mesh.material.opacity = opacity
+    },
   }
 }
 </script>
