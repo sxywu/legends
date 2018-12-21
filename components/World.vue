@@ -55,7 +55,8 @@ export default {
     // orbital controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement)
     this.controls.maxDistance = outerRadius - 5
-    this.controls.maxPolarAngle = this.controls.minPolarAngle = Math.PI / 2
+    this.controls.maxPolarAngle = Math.PI / 2
+    this.controls.enableDamping = true
     this.controls.addEventListener('change', this.updateCamera)
 
     // texture map, adapted from
