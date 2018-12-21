@@ -11,7 +11,7 @@
 
 <script>
 import _ from 'lodash'
-import {extent, scaleLinear, scaleOrdinal, scaleQuantize} from 'd3'
+import {max, extent, scaleLinear, scaleOrdinal, scaleQuantize} from 'd3'
 import * as THREE from 'three'
 const OrbitControls = require('three-orbit-controls')(THREE)
 const vertexShader = require('../assets/crystal.vert')
@@ -113,14 +113,21 @@ export default {
   },
   methods: {
     renderData() {
+      this.decades = _.chain(this.legends)
+        .countBy(d => d.decade)
+        .map((count, decade) => {
+          return {count, decade: +decade}
+        }).value()
+
+      const perWidth = innerRadius / (max(this.decades, d => d.count))
       this.crystals = _.chain(this.legends)
         .groupBy(d => d.decade)
         .map(data => {
-          const perWidth = innerRadius / data.length
+          const offset = data.length * perWidth / 2
           return _.map(data, (d, i) => {
             const faces = this.facesScale(d.references)
             const size = this.sizeScale(d.backlinks)
-            const x = i * perWidth - innerRadius / 2 + _.random(-0.25, 0.25)
+            const x = i * perWidth - offset + _.random(-0.25, 0.25)
             const z = this.zScale(d.decade)
             const color = this.colors[d.category]
 
