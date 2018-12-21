@@ -32,7 +32,7 @@ export default {
       width: window.innerWidth,
       height: window.innerHeight,
       textWidth: 205,
-      textHeight: 50,
+      textHeight: 60,
     }
   },
   created() {
@@ -126,9 +126,8 @@ export default {
 
         this.scene.add(crystal)
 
-        const text = this.createText(d.name, d.categoryLabel || d.category, i)
-
-        text.position.set(x, -size - this.textHeight / 200 - 0.1, z)
+        const text = this.createText(d.name, d.categoryLabel || d.category, d.year, i)
+        text.position.set(x, size + this.textHeight / 100, z)
         this.scene.add(text)
       })
 
@@ -168,7 +167,7 @@ export default {
 
       return new THREE.Mesh(geometry, material)
     },
-    createText: function(name, category, index) {
+    createText: function(name, category, year, index) {
       const color = '#50306c'
       const canvas = this.$refs[`canvas${index}`][0]
       const ctx = canvas.getContext('2d')
@@ -183,8 +182,8 @@ export default {
       ctx.fillText(name, this.textWidth / 2, this.textHeight / 3)
       ctx.strokeText(name, this.textWidth / 2, this.textHeight / 3)
       ctx.font = '11px Libre Baskerville'
-      ctx.fillText(category, this.textWidth / 2, 2 * this.textHeight / 3)
-      ctx.strokeText(category, this.textWidth / 2, 2 * this.textHeight / 3)
+      ctx.fillText(`${category}, ${year}`, this.textWidth / 2, 2 * this.textHeight / 3)
+      ctx.strokeText(`${category}, ${year}`, this.textWidth / 2, 2 * this.textHeight / 3)
 
       const texture = new THREE.Texture(canvas)
 
