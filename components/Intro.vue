@@ -1,5 +1,5 @@
 <template>
-  <div id="intro">
+  <div id="intro" :style='{opacity}'>
     <div class='container'>
       <h1>Legends</h1>
       <p>
@@ -30,7 +30,7 @@
       </div>
 
       <div class='grid explore'>
-        <h2 @click='toggleIntro(false)'>Explore</h2>
+        <h2 @click='toggleIntro(0)'>Explore</h2>
         <div class='label'>
           <strong>Zoom & pan to navigate.</strong><br>
           <sup>Warning: sensitive controls.</sup>
@@ -44,7 +44,7 @@
       <p class='credits'>
         <sup>
         Made with 💖 by <a href='https://twitter.com/sxywu' target='_new'>Shirley Wu</a> for <a href='https://christmasexperiments.com' target='_new'>Christmas XP</a>.<br>
-        Many thanks to <a href='https://twitter.com/mattdesl' target='_new'>Matt DesLauriers</a> for the introductory <a href='https://frontendmasters.com/workshops/canvas-webgl/' target='_new'>creative coding workshop</a> and all subsequent feedback 🙏
+        Many thanks to <a href='https://twitter.com/mattdesl' target='_new'>Matt DesLauriers</a> for his introductory <a href='https://frontendmasters.com/workshops/canvas-webgl/' target='_new'>creative coding workshop</a> and all subsequent feedback 🙏
         </sup>
       </p>
     </div>
@@ -57,7 +57,7 @@ import Crystal from './Crystal.vue'
 
 export default {
   name: 'intro',
-  props: ['toggleIntro'],
+  props: ['toggleIntro', 'opacity'],
   components: {Crystal},
   data() {
     return {
@@ -80,7 +80,6 @@ export default {
   height: 100vh;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.85);
-  color: #50306c;
 }
 
 .container {
