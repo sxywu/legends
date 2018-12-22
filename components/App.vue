@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <World v-bind='{legends}' />
+    <World v-bind='{legends}'></World>
+    <Intro></Intro>
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
+import Intro from './Intro.vue'
 import World from './World.vue'
 import legends from '../assets/legends.json'
 
 export default {
   name: 'app',
   components: {
-    World,
+    World, Intro,
   },
   data() {
     return {
