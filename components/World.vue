@@ -28,7 +28,7 @@ const colors = {
 }
 
 const innerRadius = 30
-const outerRadius = innerRadius + 10
+const outerRadius = 2 * innerRadius
 export default {
   name: 'world',
   props: ['legends'],
@@ -187,16 +187,16 @@ export default {
         color: colors.yellow,
         side: THREE.DoubleSide,
       })
-      _.times(853, i => {
+      this.stars = _.times(853, i => {
         // small white dot
         const star = new THREE.Mesh(starGeometry, starMaterial)
-
-        star.position.set(
-          _.random(-outerRadius, outerRadius),
-          _.random(-1, 10),
-          _.random(-outerRadius, outerRadius)
-        )
+        const angle = _.random(0, 2 * Math.PI)
+        const radius = _.random(-outerRadius / 2, outerRadius / 2)
+        const y = _.random(-1, outerRadius / 2)
+        this.calculateStarPosition(star, angle, radius, y)
         this.scene.add( star )
+
+        return {mesh: star, angle, radius, y}
       })
     },
     createCrystal: function(numFaces, color) {
@@ -294,7 +294,7 @@ export default {
     createBackground: function() {
       // textured floor inspiration from
       // https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
-      const planeSize = 3 * outerRadius
+      const planeSize = 2 * outerRadius
       const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(planeSize, planeSize, planeSize / 3, planeSize / 3),
         new THREE.MeshStandardMaterial( {
@@ -315,7 +315,7 @@ export default {
 
       // and add "sky"
       const sky = new THREE.Mesh(
-        new THREE.SphereGeometry(outerRadius + 10, 20, 20),
+        new THREE.SphereGeometry(outerRadius / 2 + 10, 20, 20),
         new THREE.MeshStandardMaterial( {
           color: colors.pink,
           side: THREE.BackSide,
@@ -324,13 +324,17 @@ export default {
       this.scene.add( sky )
     },
     animate: function() {
-      requestAnimationFrame( this.animate )
+      // requestAnimationFrame( this.animate )
 
       // // rotate crystals
       // _.each(this.crystals, d => {
       //   d.rotation += d.speed
       //   d.mesh.rotation.y = d.rotation
       // })
+      _.each(this.stars, d => {
+        d.angle += 0.0001
+        this.calculateStarPosition(d.mesh, d.angle, d.radius, d.y)
+      })
 
     	this.controls.update()
 	    this.renderer.render(this.scene, this.camera)
@@ -356,6 +360,11 @@ export default {
       // if less than 12, 100% opacity, after that fade
       const opacity = dist < 12 ? 1 : Math.max(1 - dist / (innerRadius / 2), 0)
       d.mesh.material.opacity = opacity
+    },
+    calculateStarPosition: function(mesh, angle, radius, y) {
+      const x = radius * Math.cos(angle)
+      const z = radius * Math.sin(angle)
+      mesh.position.set(x, y, z)
     },
   }
 }
