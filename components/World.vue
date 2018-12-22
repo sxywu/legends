@@ -96,12 +96,15 @@ export default {
     // faces: number of sources
     // z-index: decade of award
     // size: backlinks
+    // speed: age at award
     const facesDomain = extent(this.legends, d => d.references)
     const sizeDomain = extent(this.legends, d => d.backlinks)
     const zDomain = extent(this.legends, d => d.decade)
-    this.facesScale = scaleQuantize().domain(facesDomain).range(_.range(5, 10))
+    const speedDomain = extent(this.legends, d => d.year - d.birthday.getFullYear())
+    this.facesScale = scaleQuantize().domain(facesDomain).range(_.range(5, 12))
     this.sizeScale = scaleLinear().domain(sizeDomain).range([0.5, 2])
     this.zScale = scaleLinear().domain(zDomain).range([-innerRadius / 2, innerRadius / 2])
+    this.speedScale = scaleLinear().domain(speedDomain).range([0.01, 0.005])
 
     this.colors = {
       "Physics": 0, "Chemistry": 0, "Physiology or Medicine": 0,
@@ -113,7 +116,7 @@ export default {
     this.renderData()
     this.createBackground()
 
-    this.renderer.render(this.scene, this.camera)
+    this.animate()
   },
   methods: {
     renderData() {
@@ -139,6 +142,7 @@ export default {
             const size = this.sizeScale(d.backlinks)
             const x = (i + 0.5) * perWidth - offset + _.random(-0.25, 0.25)
             const color = this.colors[d.category]
+            const speed = this.speedScale(d.year - d.birthday.getFullYear())
 
             const crystal = this.createCrystal(faces, color)
             crystal.scale.set(size * 0.5, size, size * 0.5)
@@ -148,7 +152,7 @@ export default {
 
             this.scene.add(crystal)
 
-            return {data: d, mesh: crystal, size, x, z,}
+            return {data: d, mesh: crystal, size, x, z, speed, rotation: 0}
           })
         }).flatten().value()
 
@@ -318,6 +322,18 @@ export default {
         } )
       )
       this.scene.add( sky )
+    },
+    animate: function() {
+      requestAnimationFrame( this.animate )
+
+      // // rotate crystals
+      // _.each(this.crystals, d => {
+      //   d.rotation += d.speed
+      //   d.mesh.rotation.y = d.rotation
+      // })
+
+    	this.controls.update()
+	    this.renderer.render(this.scene, this.camera)
     },
     updateCamera: function() {
       // light position
