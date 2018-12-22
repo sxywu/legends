@@ -3,7 +3,7 @@
     <div class='container'>
       <h1>Legends</h1>
       <p>
-        Since its inception in 1901, <strong>51 women</strong> have been awarded the Nobel Prize.  These legendary women are represented as <strong>crystals</strong>, encoded by data from their Wikipedia pages.  They are colored by the category of their award, sized by their "influence" (mentions in other Wikipedia pages), and positioned by the decade they received their prize.
+        Since its inception in 1901, <strong><a href='https://en.wikipedia.org/wiki/List_of_female_Nobel_laureates' target='_new'>51 women</a></strong> have been awarded the <strong><a href='https://en.wikipedia.org/wiki/Nobel_Prize' target='_new'>Nobel Prize</a></strong>.  These legendary women are represented as <strong>crystals</strong>, encoded by data from their Wikipedia pages.  They are colored by the category of their award, sized by their "influence" (mentions in other Wikipedia pages), and positioned by the decade they received their prize.
       </p>
 
       <!-- legend -->
@@ -38,7 +38,14 @@
       </div>
 
       <p>
-        Each <strong>star</strong> represents one of the <strong>853 men</strong> that have won the award.
+        Each <strong>star</strong> represents one of <strong>853 men</strong> that have won the award.
+      </p>
+
+      <p class='credits'>
+        <sup>
+        Made with 💖 by <a href='https://twitter.com/sxywu' target='_new'>Shirley Wu</a> for <a href='https://christmasexperiments.com' target='_new'>Christmas XP</a>.<br>
+        Many thanks to <a href='https://twitter.com/mattdesl' target='_new'>Matt DesLauriers</a> for the introductory <a href='https://frontendmasters.com/workshops/canvas-webgl/' target='_new'>creative coding workshop</a> and all subsequent feedback 🙏
+        </sup>
       </p>
     </div>
   </div>
@@ -64,7 +71,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #intro {
   position: fixed;
   top: 0;
@@ -73,6 +80,7 @@ export default {
   height: 100vh;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.85);
+  color: #50306c;
 }
 
 .container {
@@ -117,7 +125,7 @@ p {
   display: grid;
   grid-template-columns: repeat(2, min-content);
   align-items: center;
-  grid-gap: 10px;
+  grid-gap: 20px;
 }
 
 .explore h2 {
@@ -133,4 +141,8 @@ p {
   line-height: 1.6;
 }
 
+.credits {
+  font-size: 12px;
+  line-height: 1.6;
+}
 </style>
