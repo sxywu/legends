@@ -5,7 +5,14 @@
       <p>
         Since its inception in 1901, <strong>51 women</strong> have been awarded the Nobel Prize.  These legendary women are represented as <strong>crystals</strong>, encoded by data from their Wikipedia pages.  They are colored by the category of their award, sized by their "influence" (mentions in other Wikipedia pages), and positioned by the decade they received their prize.
       </p>
-      <h2 class='explore'>Explore</h2>
+
+      <!-- legend -->
+      <div>
+        <Crystal v-bind='{data: [{color: 0, faces: 9, size: 1.5}]}'></Crystal>
+        <Crystal v-bind='{data: [{color: 1, faces: 9, size: 1.5}]}'></Crystal>
+      </div>
+
+      <h2 class='explore' @click='toggleIntro(false)'>Explore</h2>
       <p>
         Each <strong>star</strong> represents the <strong>853 men</strong> that have won the award.
       </p>
@@ -15,10 +22,12 @@
 
 <script>
 import _ from 'lodash'
+import Crystal from './Crystal.vue'
 
 export default {
   name: 'intro',
   props: ['toggleIntro'],
+  components: {Crystal},
 }
 </script>
 
