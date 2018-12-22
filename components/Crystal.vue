@@ -9,15 +9,14 @@ const vertexShader = require('../assets/crystal.vert')
 const fragmentShader = require('../assets/crystal.frag')
 import textureImage from '../assets/texture1.jpg'
 
-const crystalWidth = 70
-const crystalHeight = 100
 export default {
   name: 'crystal',
-  props: ['data'], // each crystal requires color, size, faces
+  // each crystal requires color, size, faces
+  props: ['data', 'crystalWidth', 'crystalHeight'],
   data() {
     return {
-      width: this.data.length * crystalWidth,
-      height: crystalHeight,
+      width: this.data.length * this.crystalWidth,
+      height: this.crystalHeight,
     }
   },
   created() {
@@ -49,16 +48,22 @@ export default {
   },
   methods: {
     renderData() {
+      const padding = 0.5
+      const width = _.sumBy(this.data, d => d.size + padding)
+      let x = 0
       _.each(this.data, (d, i) => {
         const {faces, size, color} = d
 
+        x += size / 2
         const crystal = this.createCrystal(faces, color)
         crystal.scale.set(size * 0.5, size, size * 0.5)
         // crystal.scale.set(size, size, size)
-        crystal.position.set(i, 0, 0)
+        crystal.position.set(x + i * padding - width / 2, 0, 0)
         crystal.castShadow = true
 
         this.scene.add(crystal)
+
+        x += size / 2
       })
     },
     createCrystal: function(numFaces, color) {
@@ -66,7 +71,6 @@ export default {
       // jitter vertices
       _.each(geometry.vertices, v => {
         v.x += _.random(-0.1, 0.1)
-        v.y += _.random(-0.1, 0.1)
         v.z += _.random(-0.1, 0.1)
       })
       geometry.computeFlatVertexNormals()
