@@ -7,14 +7,22 @@
       </p>
 
       <!-- legend -->
-      <div>
+      <div class='grid color'>
         <Crystal v-bind='{data: [{color: 0, faces: 9, size: 1.5}]}'></Crystal>
+        <div class='label'>
+          <strong>Natural Sciences</strong><br>
+          <sup>(Physics, Chemistry, and Medicine)</sup>
+        </div>
         <Crystal v-bind='{data: [{color: 1, faces: 9, size: 1.5}]}'></Crystal>
+        <div class='label'>
+          <strong>Humanities & Social Sciences</strong><br>
+          <sup>(Peace, Literature, and Economics)</sup>
+        </div>
       </div>
 
       <h2 class='explore' @click='toggleIntro(false)'>Explore</h2>
       <p>
-        Each <strong>star</strong> represents the <strong>853 men</strong> that have won the award.
+        Each <strong>star</strong> represents one of the <strong>853 men</strong> that have won the award.
       </p>
     </div>
   </div>
@@ -61,5 +69,18 @@ export default {
 
 p {
   line-height: 1.6;
+}
+
+.grid.color {
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  grid-template-rows: repeat(2, auto);
+  align-items: center;
+  line-height: 1.6;
+  font-size: 12px;
+}
+
+.color .label {
+  width: 200px;
 }
 </style>

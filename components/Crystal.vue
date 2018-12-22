@@ -9,7 +9,7 @@ const vertexShader = require('../assets/crystal.vert')
 const fragmentShader = require('../assets/crystal.frag')
 import textureImage from '../assets/texture1.jpg'
 
-const crystalWidth = 80
+const crystalWidth = 70
 const crystalHeight = 100
 export default {
   name: 'crystal',
