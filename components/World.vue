@@ -194,7 +194,7 @@ export default {
         // small white dot
         const star = new THREE.Mesh(starGeometry, starMaterial)
         const angle = _.random(0, 2 * Math.PI)
-        const radius = _.random(-outerRadius / 2, outerRadius / 2)
+        const radius = _.random(outerRadius / 10, outerRadius / 2)
         const y = _.random(-1, outerRadius / 2)
         this.calculateStarPosition(star, angle, radius, y)
         this.scene.add( star )
