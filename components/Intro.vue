@@ -30,7 +30,7 @@
       </div>
 
       <div class='grid explore'>
-        <h2 @click='toggleIntro(0)'>Explore</h2>
+        <h3 @click='toggleIntro(0)'>Explore</h3>
         <div class='label'>
           <strong>Zoom & pan to navigate.</strong><br>
           <sup>Warning: sensitive controls.</sup>
@@ -79,17 +79,22 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .container {
   width: calc(100% - 100px);
   max-width: 800px;
-  height: calc(100% - 100px);
+  max-height: calc(100% - 100px);
   position: absolute;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
+}
+
+h1 {
+  font-size: 42px;
+  margin-top: 0;
 }
 
 p {
@@ -127,7 +132,7 @@ p {
   grid-gap: 20px;
 }
 
-.explore h2 {
+.explore h3 {
   padding: 10px 40px;
   border: 2px solid;
   display: inline-block;
