@@ -1,13 +1,13 @@
 <template>
   <div id='world'>
-  <div id='texts'>
-    <canvas class='hidden' v-for='(d, i) in decades' :ref='`decade${i}`'
-      :width='2 * textWidth' :height='2 * textHeight'
-      :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
-    <canvas class='hidden' v-for='(d, i) in legends' :ref='`name${i}`'
-      :width='2 * textWidth' :height='2 * textHeight'
-      :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
-  </div>
+    <div id='texts'>
+      <canvas class='hidden' v-for='(d, i) in decades' :ref='`decade${i}`'
+        :width='2 * textWidth' :height='2 * textHeight'
+        :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
+      <canvas class='hidden' v-for='(d, i) in legends' :ref='`name${i}`'
+        :width='2 * textWidth' :height='2 * textHeight'
+        :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
+    </div>
     <div ref='container' :width='width' :height='height'></div>
   </div>
 </template>
