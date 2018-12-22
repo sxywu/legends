@@ -8,6 +8,13 @@
 
       <!-- legend -->
       <div class='grid legend'>
+        <div class='size'>
+          <Crystal v-bind='{data: sizes, crystalWidth: 70, crystalHeight: 150}'></Crystal>
+          <div class='label'>
+            <span style='float: left'>← Less "influence"</span>
+            <span style='float: right'>More "influence" →</span>
+          </div>
+        </div>
         <div class='grid color'>
           <Crystal v-bind='{data: science, crystalWidth: 70, crystalHeight: 100}'></Crystal>
           <div class='label'>
@@ -18,13 +25,6 @@
           <div class='label'>
             <strong>Humanities & Social Sciences</strong><br>
             <sup>(Peace, Literature, and Economics)</sup>
-          </div>
-        </div>
-        <div class='size'>
-          <Crystal v-bind='{data: sizes, crystalWidth: 70, crystalHeight: 150}'></Crystal>
-          <div class='label'>
-            <span style='float: left'>← Less "influence"</span>
-            <span style='float: right'>More "influence" →</span>
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@ p {
 }
 
 .size .label {
-  padding: 10px 20px 0 20px;
+  padding: 10px 40px 0 32px;
   font-weight: bold;
 }
 
