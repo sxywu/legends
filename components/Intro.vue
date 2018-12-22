@@ -29,7 +29,14 @@
         </div>
       </div>
 
-      <h2 class='explore' @click='toggleIntro(false)'>Explore</h2>
+      <div class='grid explore'>
+        <h2 @click='toggleIntro(false)'>Explore</h2>
+        <div class='label'>
+          <strong>Zoom & pan to navigate.</strong><br>
+          <sup>Warning: sensitive controls.</sup>
+        </div>
+      </div>
+
       <p>
         Each <strong>star</strong> represents one of the <strong>853 men</strong> that have won the award.
       </p>
@@ -78,13 +85,6 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.explore {
-  padding: 10px 40px;
-  border: 2px solid;
-  display: inline-block;
-  cursor: pointer;
-}
-
 p {
   line-height: 1.6;
 }
@@ -112,4 +112,25 @@ p {
   padding: 10px 20px 0 20px;
   font-weight: bold;
 }
+
+.grid.explore {
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  align-items: center;
+  grid-gap: 10px;
+}
+
+.explore h2 {
+  padding: 10px 40px;
+  border: 2px solid;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.explore .label {
+  width: 200px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 </style>
