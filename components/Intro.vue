@@ -7,20 +7,26 @@
       </p>
 
       <!-- legend -->
-      <div class='grid color'>
-        <Crystal v-bind='{data: science, crystalWidth: 70, crystalHeight: 100}'></Crystal>
-        <div class='label'>
-          <strong>Natural Sciences</strong><br>
-          <sup>(Physics, Chemistry, and Medicine)</sup>
+      <div class='grid legend'>
+        <div class='grid color'>
+          <Crystal v-bind='{data: science, crystalWidth: 70, crystalHeight: 100}'></Crystal>
+          <div class='label'>
+            <strong>Natural Sciences</strong><br>
+            <sup>(Physics, Chemistry, and Medicine)</sup>
+          </div>
+          <Crystal v-bind='{data: humanities, crystalWidth: 70, crystalHeight: 100}'></Crystal>
+          <div class='label'>
+            <strong>Humanities & Social Sciences</strong><br>
+            <sup>(Peace, Literature, and Economics)</sup>
+          </div>
         </div>
-        <Crystal v-bind='{data: humanities, crystalWidth: 70, crystalHeight: 100}'></Crystal>
-        <div class='label'>
-          <strong>Humanities & Social Sciences</strong><br>
-          <sup>(Peace, Literature, and Economics)</sup>
+        <div class='size'>
+          <Crystal v-bind='{data: sizes, crystalWidth: 70, crystalHeight: 150}'></Crystal>
+          <div class='label'>
+            <span style='float: left'>← Less "influence"</span>
+            <span style='float: right'>More "influence" →</span>
+          </div>
         </div>
-      </div>
-      <div class='size'>
-        <Crystal v-bind='{data: sizes, crystalWidth: 70, crystalHeight: 150}'></Crystal>
       </div>
 
       <h2 class='explore' @click='toggleIntro(false)'>Explore</h2>
@@ -43,7 +49,7 @@ export default {
     return {
       science: [{color: 0, faces: 9, size: 1.5}],
       humanities: [{color: 1, faces: 9, size: 1.5}],
-      sizes: _.times(7, i => {
+      sizes: _.times(6, i => {
         return {color: 0, faces: 9, size: i * 0.25 + 0.5}
       })
     }
@@ -83,21 +89,27 @@ p {
   line-height: 1.6;
 }
 
+.grid.legend {
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  align-items: center;
+  font-size: 12px;
+}
+
 .grid.color {
   display: grid;
   grid-template-columns: repeat(2, min-content);
   grid-template-rows: repeat(2, auto);
   align-items: center;
   line-height: 1.6;
-  font-size: 12px;
 }
 
 .color .label {
   width: 200px;
 }
 
-.size {
-  display: inline-block;
-  vertical-align: top;
+.size .label {
+  padding: 10px 20px 0 20px;
+  font-weight: bold;
 }
 </style>
