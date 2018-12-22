@@ -112,6 +112,9 @@ export default {
     }
   },
   mounted() {
+    // handle window resize
+    window.addEventListener('resize', this.handleWindowResize)
+
     this.$refs.container.appendChild(this.renderer.domElement)
     this.renderData()
     this.createBackground()
@@ -365,6 +368,14 @@ export default {
       const x = radius * Math.cos(angle)
       const z = radius * Math.sin(angle)
       mesh.position.set(x, y, z)
+    },
+    handleWindowResize: function() {
+      this.width = window.innerWidth
+      this.height = window.innerHeight
+
+      this.renderer.setSize(this.width, this.height)
+      this.camera.aspect = this.width / this.height
+      this.camera.updateProjectionMatarix()
     },
   }
 }
