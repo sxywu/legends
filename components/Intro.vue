@@ -3,11 +3,11 @@
     <div class='container'>
       <h1>Legends</h1>
       <p>
-        Since its inception in 1901, <strong>51 women</strong> have been awarded the Nobel Prize.  These legendary women are represented as crystals, encoded by their Wikipedia data.  They are colored by the category of their award, sized by their "influence" (the number of backlinks to their Wikipedia page), and positioned by the decade they received their prize.
+        Since its inception in 1901, <strong>51 women</strong> have been awarded the Nobel Prize.  These legendary women are represented as <strong>crystals</strong>, encoded by data from their Wikipedia pages.  They are colored by the category of their award, sized by their "influence" (mentions in other Wikipedia pages), and positioned by the decade they received their prize.
       </p>
       <h2 class='explore'>Explore</h2>
       <p>
-        Each star represents the 853 men that have won the award.
+        Each <strong>star</strong> represents the <strong>853 men</strong> that have won the award.
       </p>
     </div>
   </div>
@@ -18,6 +18,7 @@ import _ from 'lodash'
 
 export default {
   name: 'intro',
+  props: ['toggleIntro'],
 }
 </script>
 
@@ -46,6 +47,7 @@ export default {
   padding: 10px 40px;
   border: 2px solid;
   display: inline-block;
+  cursor: pointer;
 }
 
 p {

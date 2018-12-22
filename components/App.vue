@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <World v-bind='{legends}'></World>
-    <Intro></Intro>
+    <Intro v-bind='{toggleIntro}' v-show='showIntro'></Intro>
   </div>
 </template>
 
@@ -25,8 +25,14 @@ export default {
           deathday: new Date(d.deathday),
           decade: _.floor(d.year, -1),
         })).value(),
+      showIntro: true,
     }
   },
+  methods: {
+    toggleIntro: function(toggle) {
+      this.showIntro = toggle
+    }
+  }
 }
 </script>
 
