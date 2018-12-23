@@ -11,28 +11,6 @@
       "deathday":"1934-07-04T07:00:00.000Z"
    },
    {
-      "year":1903,
-      "name":"Marie Skłodowska Curie",
-      "country":"Poland and France",
-      "category":"Physics",
-      "note":"in recognition of the extraordinary services they have rendered by their joint researches on the radiation phenomena discovered by Professor Henri Becquerel",
-      "backlinks":2160,
-      "references":157,
-      "birthday":"1867-11-07T08:00:00.000Z",
-      "deathday":"1934-07-04T07:00:00.000Z"
-   },
-   {
-      "year":1903,
-      "name":"Marie Skłodowska Curie",
-      "country":"Poland and France",
-      "category":"Physics",
-      "note":"in recognition of the extraordinary services they have rendered by their joint researches on the radiation phenomena discovered by Professor Henri Becquerel",
-      "backlinks":2160,
-      "references":157,
-      "birthday":"1867-11-07T08:00:00.000Z",
-      "deathday":"1934-07-04T07:00:00.000Z"
-   },
-   {
       "year":1905,
       "name":"Bertha von Suttner",
       "country":"Austria–Hungary",
@@ -524,7 +502,7 @@
       "name":"Malala Yousafzai",
       "country":"Pakistan and India",
       "category":"Peace",
-      "note":"for their struggle against the suppression of children and young people and for the right of all children to education\".",
+      "note":"for their struggle against the suppression of children and young people and for the right of all children to education",
       "backlinks":1391,
       "references":459,
       "birthday":"1997-07-12T07:00:00.000Z"

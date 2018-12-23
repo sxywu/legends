@@ -29,6 +29,27 @@ const colors = {
 
 const innerRadius = 30
 const outerRadius = 2 * innerRadius
+
+// from https://stackoverflow.com/questions/2936112/text-wrap-in-a-canvas-element
+function wrapText(ctx, text, maxWidth) {
+    var words = text.split(" ");
+    var lines = [];
+    var currentLine = words[0];
+
+    for (var i = 1; i < words.length; i++) {
+        var word = words[i];
+        var width = ctx.measureText(currentLine + " " + word).width;
+        if (width < maxWidth) {
+            currentLine += " " + word;
+        } else {
+            lines.push(currentLine);
+            currentLine = word;
+        }
+    }
+    lines.push(currentLine);
+    return lines;
+}
+
 export default {
   name: 'world',
   props: ['legends'],
@@ -37,7 +58,7 @@ export default {
       width: window.innerWidth,
       height: window.innerHeight,
       textWidth: 820,
-      textHeight: 240,
+      textHeight: 420,
       decades: _.range(10), // hard code how many canvas to draw
     }
   },
@@ -56,7 +77,7 @@ export default {
     this.renderer.setSize(this.width, this.height)
 
     // set camera position
-    this.camera.position.set( 0, 0, innerRadius / 2 + 10 )
+    this.camera.position.set( 0, 0.5, innerRadius / 2 + 15 )
     this.camera.lookAt( 0, 0, -outerRadius )
 
     // orbital controls
@@ -168,12 +189,12 @@ export default {
       const cameraPosition = this.camera.getWorldPosition()
       this.names = _.map(this.crystals, (d, i) => {
         const {x, size, z} = d
-        const {name, category, categoryLabel, year} = d.data
-        const text = this.createText(name, categoryLabel || category, year, i)
+        const {name, category, categoryLabel, note, year} = d.data
+        const text = this.createText(name, categoryLabel || category, year, note, i)
 
         const obj = {mesh: text, x, z}
         this.calculateTextOpacity(obj, cameraPosition)
-        text.position.set(x, size + this.textHeight / 400, z)
+        text.position.set(x, size + this.textHeight / 750, z)
         this.scene.add(text)
 
         return obj
@@ -230,29 +251,47 @@ export default {
 
       return new THREE.Mesh(geometry, material)
     },
-    createText: function(name, category, year, index) {
+    createText: function(name, category, year, note, index) {
       const color = '#50306c'
       const canvas = this.$refs[`name${index}`][0]
       const ctx = canvas.getContext('2d')
       ctx.scale(2, 2)
 
+      const size1 = 56
+      const size2 = 44
+      const padding = 10
       // configs
       const x = this.textWidth / 2
-      const y1 = this.textHeight / 3
-      const y2 = 2 * this.textHeight / 3
+      const y1 = padding + size1 / 2
+      const y2 = y1 + size1 / 2 + padding + size2 / 2
+      let y3 = y2 + size2 / 2 + 2 * padding
       const text2 = `${category}, ${year}`
 
-      // text1
+      ctx.font = `${size2}px Libre Baskerville`
+      const lines = wrapText(ctx, note, this.textWidth)
+      const height = y3 + lines.length * (size2 + padding)
+      const offset = this.textHeight - height
+
+      // name
       ctx.fillStyle = color
       ctx.strokeStyle = color
-      ctx.font = '56px Libre Baskerville'
+      ctx.font = `${size1}px Libre Baskerville`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
-      ctx.fillText(name, x, y1)
-      ctx.strokeText(name, x, y1)
-      ctx.font = '44px Libre Baskerville'
-      ctx.fillText(text2, x, y2)
-      ctx.strokeText(text2, x, y2)
+      ctx.fillText(name, x, y1 + offset)
+      ctx.strokeText(name, x, y1 + offset)
+      // category/year
+      ctx.font = `${size2}px Libre Baskerville`
+      ctx.fillText(text2, x, y2 + offset)
+      ctx.strokeText(text2, x, y2 + offset)
+
+      // description
+      _.each(lines, line => {
+        y3 += size2 / 2
+        ctx.fillText(line, x, y3 + offset)
+        ctx.strokeText(line, x, y3 + offset)
+        y3 += size2 / 2 + padding
+      })
 
       const texture = new THREE.Texture(canvas)
 
@@ -369,7 +408,7 @@ export default {
       // calculate dist
       const dist = Math.sqrt(Math.pow(d.x - p.x, 2) + Math.pow(d.z - p.z, 2))
       // if less than 12, 100% opacity, after that fade
-      const opacity = dist < 12 ? 1 : Math.max(1 - dist / (innerRadius / 2), 0)
+      const opacity = dist < 5 ? 1 : Math.max(1 - dist / (innerRadius / 4), 0)
       d.mesh.material.opacity = opacity
     },
     calculateStarPosition: function(mesh, angle, radius, y) {
@@ -394,6 +433,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+  /* border: 1px solid; */
   display: none;
 }
 </style>
