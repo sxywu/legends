@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.html",
-    "predeploy": "rm -rf dist && parcel build index.html --public-url /legends",
+    "predeploy": "rm -rf dist && parcel build index.html --public-url /",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [],
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.3.0",
+    "cssnano": "^4.1.7",
     "vue-template-compiler": "^2.5.19",
     "wikijs": "^4.10.1"
   }
