@@ -65,6 +65,7 @@ export default {
     this.controls.maxPolarAngle = Math.PI / 2
     this.controls.enableDamping = true
     this.controls.dampingFactor = 1
+    this.controls.zoomSpeed = 0.5
     this.controls.addEventListener('change', this.updateCamera)
 
     // texture map, adapted from
