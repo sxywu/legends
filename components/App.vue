@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <World v-bind='{legends}'></World>
-    <Intro v-bind='{toggleIntro, opacity: introOpacity}' v-if='introOpacity'></Intro>
+    <Intro v-bind='{isPhone, toggleIntro, opacity: introOpacity}' v-if='introOpacity'></Intro>
     <div id='showIntro' :style='{opacity: 1 - introOpacity}' @click='toggleIntro(1)'>i</div>
   </div>
 </template>
@@ -9,6 +9,7 @@
 <script>
 import _ from 'lodash'
 import {TweenLite} from 'gsap'
+import isMobile from 'ismobilejs'
 
 import Intro from './Intro.vue'
 import World from './World.vue'
@@ -21,6 +22,7 @@ export default {
   },
   data() {
     return {
+      isPhone: isMobile.phone,
       legends: _.chain(legends)
         .uniqBy('name')
         .map(d => Object.assign(d, {

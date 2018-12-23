@@ -1,13 +1,13 @@
 <template>
-  <div id="intro" :style='{opacity}'>
+  <div id="intro" :class='isPhone ? `mobile` : ``' :style='{opacity}'>
     <div class='container'>
       <h1>Legends</h1>
       <p>
         Since its inception in 1901, <strong><a href='https://en.wikipedia.org/wiki/List_of_female_Nobel_laureates' target='_new'>51 women</a></strong> have been awarded the <strong><a href='https://en.wikipedia.org/wiki/Nobel_Prize' target='_new'>Nobel Prize</a></strong>.  These legendary women are represented as <strong>crystals</strong>, encoded by data from their Wikipedia pages.  They are colored by the category of their award, sized by their "influence" (mentions in other Wikipedia pages), and positioned by the decade they received their prize.
       </p>
 
-      <!-- legend -->
-      <div class='grid legend'>
+      <!-- legend (only show on desktop) -->
+      <div v-if='!isPhone' class='grid legend'>
         <div class='size'>
           <Crystal v-bind='{data: sizes, crystalWidth: 70, crystalHeight: 150}'></Crystal>
           <div class='label'>
@@ -57,7 +57,7 @@ import Crystal from './Crystal.vue'
 
 export default {
   name: 'intro',
-  props: ['toggleIntro', 'opacity'],
+  props: ['isPhone', 'toggleIntro', 'opacity'],
   components: {Crystal},
   data() {
     return {
@@ -90,6 +90,11 @@ export default {
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
+}
+
+.mobile .container {
+  width: calc(100% - 40px);
+  max-height: calc(100% - 40px);
 }
 
 h1 {
