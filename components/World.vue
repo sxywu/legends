@@ -77,7 +77,7 @@ export default {
     this.renderer.setSize(this.width, this.height)
 
     // set camera position
-    this.camera.position.set( 0, 0.5, innerRadius / 2 + 15 )
+    this.camera.position.set( 0, 1.5, innerRadius / 2 + 15 )
     this.camera.lookAt( 0, 0, -outerRadius )
 
     // orbital controls
@@ -194,7 +194,7 @@ export default {
 
         const obj = {mesh: text, x, z}
         this.calculateTextOpacity(obj, cameraPosition)
-        text.position.set(x, size + this.textHeight / 750, z)
+        text.position.set(x, size + this.textHeight / 600, z)
         this.scene.add(text)
 
         return obj
@@ -397,18 +397,21 @@ export default {
       this.light.position.set(x, 350, z)
 
       // fade text
+      angle = this.controls.getPolarAngle()
       const cameraPosition = this.camera.getWorldPosition()
       _.each(this.names, d => {
-        this.calculateTextOpacity(d, cameraPosition)
+        this.calculateTextOpacity(d, cameraPosition, angle)
       })
 
       this.renderer.render(this.scene, this.camera)
     },
-    calculateTextOpacity: function(d, p) {
+    calculateTextOpacity: function(d, p, angle) {
       // calculate dist
       const dist = Math.sqrt(Math.pow(d.x - p.x, 2) + Math.pow(d.z - p.z, 2))
       // if less than 12, 100% opacity, after that fade
-      const opacity = dist < 5 ? 1 : Math.max(1 - dist / (innerRadius / 4), 0)
+      let opacity = dist < 5 ? 1 : Math.max(1 - dist / (innerRadius / 4), 0)
+      // if camera goes above, don't show
+      opacity = -Math.PI / 4 < angle && angle < Math.PI / 4 ? 0 : opacity
       d.mesh.material.opacity = opacity
     },
     calculateStarPosition: function(mesh, angle, radius, y) {
