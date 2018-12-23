@@ -43,7 +43,7 @@
 
       <p class='credits'>
         <sup>
-        Made with 💖 by <a href='https://twitter.com/sxywu' target='_new'>Shirley Wu</a> for <a href='https://christmasexperiments.com' target='_new'>Christmas XP</a>.<br>
+        Made with 💖 by <a href='https://twitter.com/sxywu' target='_new'>Shirley Wu</a> for <a href='https://christmasexperiments.com' target='_new'>Christmas XP</a> and <a href='http://www.datasketch.es/' target='_new'>Datasketch|es</a>.<br>
         Many thanks to <a href='https://twitter.com/mattdesl' target='_new'>Matt DesLauriers</a> for his introductory <a href='https://frontendmasters.com/workshops/canvas-webgl/' target='_new'>creative coding workshop</a> and all subsequent feedback 🙏
         </sup>
       </p>
