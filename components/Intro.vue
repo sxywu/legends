@@ -1,5 +1,5 @@
 <template>
-  <div id="intro" :class='isPhone ? `mobile` : ``' :style='{opacity}'>
+  <div id="intro" :class='isPhone ? `mobile` : ``' :style='{opacity}' @click='toggleIntro(0)'>
     <div class='container'>
       <h1>Legends</h1>
       <p>
