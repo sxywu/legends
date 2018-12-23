@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "parcel index.html",
-    "predeploy": "rm -rf dist && parcel build index.html --public-url /",
+    "predeploy": "rm -rf dist && parcel build index.html --public-url /legends",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "glsl-noise": "0.0.0",
     "glslify": "^7.0.0",
     "gsap": "^2.0.2",
+    "ismobilejs": "^0.5.1",
     "lodash": "^4.17.11",
     "three": "^0.99.0",
     "three-orbit-controls": "^82.1.0",
