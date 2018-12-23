@@ -14,7 +14,7 @@
 
 <script>
 import _ from 'lodash'
-import {max, extent, scaleLinear, scaleOrdinal, scaleQuantize} from 'd3'
+import {max, extent, scaleLinear, scaleOrdinal, scaleQuantize, timer} from 'd3'
 import * as THREE from 'three'
 const OrbitControls = require('three-orbit-controls')(THREE)
 const vertexShader = require('../assets/crystal.vert')
@@ -50,7 +50,7 @@ export default {
     this.renderer.setClearColor(0xffffff, 1)
 
     // fog
-    this.scene.fog = new THREE.FogExp2( colors.yellow, 0.0075 )
+    this.scene.fog = new THREE.FogExp2( colors.yellow, 0.01 )
 
     // set renderer size
     this.renderer.setSize(this.width, this.height)
@@ -64,7 +64,7 @@ export default {
     this.controls.maxDistance = outerRadius - 5
     this.controls.maxPolarAngle = Math.PI / 2
     this.controls.enableDamping = true
-    this.controls.dampingFactor = 0.25
+    this.controls.dampingFactor = 1
     this.controls.addEventListener('change', this.updateCamera)
 
     // texture map, adapted from
@@ -108,7 +108,7 @@ export default {
     this.facesScale = scaleQuantize().domain(facesDomain).range(_.range(5, 12))
     this.sizeScale = scaleLinear().domain(sizeDomain).range([0.5, 2])
     this.zScale = scaleLinear().domain(zDomain).range([-innerRadius / 2, innerRadius / 2])
-    this.speedScale = scaleLinear().domain(speedDomain).range([0.01, 0.005])
+    this.speedScale = scaleLinear().domain(speedDomain).range([1000, 2000])
 
     this.colors = {
       "Physics": 0, "Chemistry": 0, "Physiology or Medicine": 0,
@@ -159,7 +159,7 @@ export default {
 
             this.scene.add(crystal)
 
-            return {data: d, mesh: crystal, size, x, z, speed, rotation: 0}
+            return {data: d, mesh: crystal, size, x, z, speed}
           })
         }).flatten().value()
 
@@ -332,20 +332,22 @@ export default {
       this.scene.add( sky )
     },
     animate: function() {
-      // requestAnimationFrame( this.animate )
+      const duration = 5 * 60 * 1000 // 5min
+      const t = timer(elapsed => {
+        // bobbing crystals
+        _.each(this.crystals, d => {
+          d.mesh.position.y = Math.sin(d.speed + elapsed / d.speed) * 0.1
+        })
+        _.each(this.stars, d => {
+          d.angle += 0.0001
+          this.calculateStarPosition(d.mesh, d.angle, d.radius, d.y)
+        })
 
-      // // rotate crystals
-      // _.each(this.crystals, d => {
-      //   d.rotation += d.speed
-      //   d.mesh.rotation.y = d.rotation
-      // })
-      _.each(this.stars, d => {
-        d.angle += 0.0001
-        this.calculateStarPosition(d.mesh, d.angle, d.radius, d.y)
+      	this.controls.update()
+  	    this.renderer.render(this.scene, this.camera)
+
+        if (elapsed > duration) t.stop()
       })
-
-    	this.controls.update()
-	    this.renderer.render(this.scene, this.camera)
     },
     updateCamera: function() {
       // light position
