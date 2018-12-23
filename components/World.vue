@@ -49,6 +49,9 @@ export default {
     // WebGL background color
     this.renderer.setClearColor(0xffffff, 1)
 
+    // fog
+    this.scene.fog = new THREE.FogExp2( colors.yellow, 0.0075 )
+
     // set renderer size
     this.renderer.setSize(this.width, this.height)
 
@@ -61,6 +64,7 @@ export default {
     this.controls.maxDistance = outerRadius - 5
     this.controls.maxPolarAngle = Math.PI / 2
     this.controls.enableDamping = true
+    this.controls.dampingFactor = 0.25
     this.controls.addEventListener('change', this.updateCamera)
 
     // texture map, adapted from
@@ -304,6 +308,7 @@ export default {
           color: colors.pink,
           side: THREE.DoubleSide,
       		flatShading: true,
+          roughness: 1.0,
         } )
       )
       _.each(plane.geometry.vertices, v => {
