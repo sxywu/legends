@@ -77,7 +77,7 @@ export default {
     this.renderer.setSize(this.width, this.height)
 
     // set camera position
-    this.camera.position.set( 1, 20, innerRadius + 40 )
+    this.camera.position.set( 0, 1.5, innerRadius / 2 + 15 )
     this.camera.lookAt( 0, 0, -outerRadius )
 
     // orbital controls
@@ -129,7 +129,7 @@ export default {
     const speedDomain = extent(this.legends, d => d.year - d.birthday.getFullYear())
     this.facesScale = scaleQuantize().domain(facesDomain).range(_.range(5, 12))
     this.sizeScale = scaleLinear().domain(sizeDomain).range([0.5, 2])
-    this.zScale = scaleLinear().domain(zDomain).range([0, innerRadius])
+    this.zScale = scaleLinear().domain(zDomain).range([-innerRadius / 2, innerRadius / 2])
     this.speedScale = scaleLinear().domain(speedDomain).range([1000, 2000])
 
     this.colors = {
@@ -373,12 +373,7 @@ export default {
     },
     animate: function() {
       const duration = 5 * 60 * 1000 // 5min
-      const y = 15
-      const z = innerRadius + 20
       const t = timer(elapsed => {
-        // animate camera forward
-        this.camera.position.set(-1, Math.max(0.5, y - elapsed / 1000), z - elapsed / 1000)
-
         // bobbing crystals
         _.each(this.crystals, d => {
           d.mesh.position.y = Math.sin(d.speed + elapsed / d.speed) * 0.1
