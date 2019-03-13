@@ -242,7 +242,6 @@ export default {
         flatShading: true,
         vertexShader,
         fragmentShader,
-        side: THREE.DoubleSide,
         uniforms: {
           colorType: {value: color},
           textureMap: {value: this.textureMap},
