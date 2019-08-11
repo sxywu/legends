@@ -4,9 +4,6 @@
       <canvas class='hidden' v-for='(d, i) in decades' :ref='`decade${i}`'
         :width='2 * textWidth' :height='2 * textHeight'
         :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
-      <canvas class='hidden' v-for='(d, i) in legends' :ref='`name${i}`'
-        :width='2 * textWidth' :height='2 * textHeight'
-        :style='{width: `${textWidth}px`, height: `${textHeight}px`}'></canvas>
     </div>
     <div ref='container' :width='width' :height='height'></div>
   </div>
@@ -16,7 +13,6 @@
 import _ from 'lodash'
 import {max, extent, scaleLinear, scaleOrdinal, scaleQuantize, timer} from 'd3'
 import * as THREE from 'three'
-const OrbitControls = require('three-orbit-controls')(THREE)
 const vertexShader = require('../assets/crystal.vert')
 const fragmentShader = require('../assets/crystal.frag')
 import textureImage from '../assets/texture1.jpg'
@@ -30,33 +26,13 @@ const colors = {
 const innerRadius = 30
 const outerRadius = 2 * innerRadius
 
-// from https://stackoverflow.com/questions/2936112/text-wrap-in-a-canvas-element
-function wrapText(ctx, text, maxWidth) {
-    var words = text.split(" ");
-    var lines = [];
-    var currentLine = words[0];
-
-    for (var i = 1; i < words.length; i++) {
-        var word = words[i];
-        var width = ctx.measureText(currentLine + " " + word).width;
-        if (width < maxWidth) {
-            currentLine += " " + word;
-        } else {
-            lines.push(currentLine);
-            currentLine = word;
-        }
-    }
-    lines.push(currentLine);
-    return lines;
-}
-
 export default {
   name: 'world',
   props: ['legends'],
   data() {
     return {
-      width: window.innerWidth,
-      height: window.innerHeight,
+      width: 1050,
+      height: 1500,
       textWidth: 820,
       textHeight: 420,
       decades: _.range(10), // hard code how many canvas to draw
@@ -65,7 +41,7 @@ export default {
   created() {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 1, 1000)
-    this.renderer = new THREE.WebGLRenderer({antialias: true})
+    this.renderer = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true })
 
     // WebGL background color
     this.renderer.setClearColor(0xffffff, 1)
@@ -76,23 +52,10 @@ export default {
     // set renderer size
     this.renderer.setSize(this.width, this.height)
 
-    // set camera position
-    this.camera.position.set( 0, 1.5, innerRadius / 2 + 15 )
-    this.camera.lookAt( 0, 0, -outerRadius )
-
-    // orbital controls
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-    this.controls.maxDistance = outerRadius - 5
-    this.controls.maxPolarAngle = Math.PI / 2
-    this.controls.enableDamping = true
-    this.controls.dampingFactor = 1
-    this.controls.zoomSpeed = 0.5
-    this.controls.addEventListener('change', this.updateCamera)
-
     // texture map, adapted from
     // https://gist.github.com/mattdesl/d74525cf21a9755383651289c799ac56
     this.textureMap = new THREE.TextureLoader().load(textureImage, texture => {
-      this.renderer.render(this.scene, this.camera)
+      this.moveCamera(0)
     })
 
     // lights
@@ -138,14 +101,9 @@ export default {
     }
   },
   mounted() {
-    // handle window resize
-    window.addEventListener('resize', this.handleWindowResize)
-
     this.$refs.container.appendChild(this.renderer.domElement)
     this.renderData()
     this.createBackground()
-
-    this.animate()
   },
   methods: {
     renderData() {
@@ -184,21 +142,6 @@ export default {
             return {data: d, mesh: crystal, size, x, z, speed}
           })
         }).flatten().value()
-
-      // NAMES
-      const cameraPosition = this.camera.getWorldPosition()
-      this.names = _.map(this.crystals, (d, i) => {
-        const {x, size, z} = d
-        const {name, category, categoryLabel, note, year} = d.data
-        const text = this.createText(name, categoryLabel || category, year, note, i)
-
-        const obj = {mesh: text, x, z}
-        this.calculateTextOpacity(obj, cameraPosition)
-        text.position.set(x, size + this.textHeight / 600, z)
-        this.scene.add(text)
-
-        return obj
-      })
 
       // DECADES
       _.each(this.decades, (d, i) => {
@@ -247,61 +190,6 @@ export default {
           textureMap: {value: this.textureMap},
         },
       })
-
-      return new THREE.Mesh(geometry, material)
-    },
-    createText: function(name, category, year, note, index) {
-      const color = '#50306c'
-      const canvas = this.$refs[`name${index}`][0]
-      const ctx = canvas.getContext('2d')
-      ctx.scale(2, 2)
-
-      const size1 = 56
-      const size2 = 44
-      const padding = 10
-      // configs
-      const x = this.textWidth / 2
-      const y1 = padding + size1 / 2
-      const y2 = y1 + size1 / 2 + padding + size2 / 2
-      let y3 = y2 + size2 / 2 + 2 * padding
-      const text2 = `${category}, ${year}`
-
-      ctx.font = `${size2}px Libre Baskerville`
-      const lines = wrapText(ctx, note, this.textWidth)
-      const height = y3 + lines.length * (size2 + padding)
-      const offset = this.textHeight - height
-
-      // name
-      ctx.fillStyle = color
-      ctx.strokeStyle = color
-      ctx.font = `${size1}px Libre Baskerville`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillText(name, x, y1 + offset)
-      ctx.strokeText(name, x, y1 + offset)
-      // category/year
-      ctx.font = `${size2}px Libre Baskerville`
-      ctx.fillText(text2, x, y2 + offset)
-      ctx.strokeText(text2, x, y2 + offset)
-
-      // description
-      _.each(lines, line => {
-        y3 += size2 / 2
-        ctx.fillText(line, x, y3 + offset)
-        ctx.strokeText(line, x, y3 + offset)
-        y3 += size2 / 2 + padding
-      })
-
-      const texture = new THREE.Texture(canvas)
-
-      const geometry = new THREE.PlaneGeometry(this.textWidth / 400, this.textHeight / 400, 1, 1)
-      const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-        opacity: 1.0,
-        side: THREE.DoubleSide,
-      })
-      material.map.needsUpdate = true
 
       return new THREE.Mesh(geometry, material)
     },
@@ -370,61 +258,37 @@ export default {
       )
       this.scene.add( sky )
     },
-    animate: function() {
-      const duration = 5 * 60 * 1000 // 5min
-      const t = timer(elapsed => {
-        // bobbing crystals
-        _.each(this.crystals, d => {
-          d.mesh.position.y = Math.sin(d.speed + elapsed / d.speed) * 0.1
-        })
-        _.each(this.stars, d => {
-          d.angle += 0.0001
-          this.calculateStarPosition(d.mesh, d.angle, d.radius, d.y)
-        })
-
-      	this.controls.update()
-  	    this.renderer.render(this.scene, this.camera)
-
-        if (elapsed > duration) t.stop()
-      })
-    },
-    updateCamera: function() {
-      // light position
-      let angle = this.controls.getAzimuthalAngle()
-      const x = 350 * Math.sin(angle)
-      const z = 350 * Math.cos(angle)
-      this.light.position.set(x, 350, z)
-
-      // fade text
-      angle = this.controls.getPolarAngle()
-      const cameraPosition = this.camera.getWorldPosition()
-      _.each(this.names, d => {
-        this.calculateTextOpacity(d, cameraPosition, angle)
-      })
-
-      this.renderer.render(this.scene, this.camera)
-    },
-    calculateTextOpacity: function(d, p, angle) {
-      // calculate dist
-      const dist = Math.sqrt(Math.pow(d.x - p.x, 2) + Math.pow(d.z - p.z, 2))
-      // if less than 12, 100% opacity, after that fade
-      let opacity = dist < 5 ? 1 : Math.max(1 - dist / (innerRadius / 4), 0)
-      // if camera goes above, don't show
-      opacity = -Math.PI / 4 < angle && angle < Math.PI / 4 ? 0 : opacity
-      d.mesh.material.opacity = opacity
-    },
     calculateStarPosition: function(mesh, angle, radius, y) {
       const x = radius * Math.cos(angle)
       const z = radius * Math.sin(angle)
       mesh.position.set(x, y, z)
     },
-    handleWindowResize: function() {
-      this.width = window.innerWidth
-      this.height = window.innerHeight
+    moveCamera(index) {
+      const x1 = 0
+      const y1 = 0
+      const z1 = innerRadius / 2 + 30
+      const x2 = -22
+      const y2 = 15
+      const z2 = innerRadius / 2 + 15
+      const lookAt1 = 5
+      const lookAt2 = 0
+      setTimeout(() => {
+        // move camera
+        const progress = (index / 9)
+        const x = (x2 - x1) * progress + x1
+        const y = (y2 - y1) * progress + y1
+        const z = (z2 - z1) * progress + z1
+        const lookAt = (lookAt2 - lookAt1) * progress + lookAt1
+        this.camera.position.set( x, y, z )
+        this.camera.lookAt( 0, lookAt, 0 )
+        this.renderer.render(this.scene, this.camera)
 
-      this.renderer.setSize(this.width, this.height)
-      this.camera.aspect = this.width / this.height
-      this.camera.updateProjectionMatarix()
+        // take screenshot
+        window.open( this.renderer.domElement.toDataURL( 'image/png' ), index )
+
+        index += 1
+        if (index < 10) this.moveCamera(index)
+      }, 150)
     },
   }
 }
