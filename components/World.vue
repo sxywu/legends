@@ -283,8 +283,8 @@ export default {
         this.camera.lookAt( 0, lookAt, 0 )
         this.renderer.render(this.scene, this.camera)
 
-        // take screenshot
-        window.open( this.renderer.domElement.toDataURL( 'image/png' ), index )
+        // take screenshot, opens in new tab
+        // window.open( this.renderer.domElement.toDataURL( 'image/png' ), index )
 
         index += 1
         if (index < 10) this.moveCamera(index)

@@ -6,17 +6,13 @@
 
 <script>
 import _ from 'lodash'
-import {TweenLite} from 'gsap'
-import isMobile from 'ismobilejs'
-
-import Intro from './Intro.vue'
 import World from './World.vue'
 import legends from '../assets/legends.json'
 
 export default {
   name: 'app',
   components: {
-    World, Intro,
+    World,
   },
   data() {
     return {
