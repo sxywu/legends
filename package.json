@@ -18,7 +18,7 @@
     "glsl-hsl2rgb": "^1.1.0",
     "glsl-noise": "0.0.0",
     "glslify": "^7.0.0",
-    "gsap": "^2.0.2",
+    "gsap": "^3.6.0",
     "ismobilejs": "^0.5.1",
     "lodash": "^4.17.11",
     "three": "^0.99.0",
